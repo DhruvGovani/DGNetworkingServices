@@ -52,7 +52,7 @@ struct Media {
     
     init?(key : String, Media : Data?, mimeType : String, fileType : String){
         self.key = key
-        self.mimeType = "image/png"
+        self.mimeType = mimeType
         self.fileName = "\(arc4random()).\(fileType)"
 
         guard let data = Media else { return nil }
