@@ -9,17 +9,23 @@
 import UIKit
 
 class ViewController: UIViewController {
+    deinit {
+        print("ViewController")
+    }
+    
+    
+    @IBOutlet weak var progressView: UIProgressView!
     
     fileprivate func UploadImage() {
         let image = Media(withJPEGImage: #imageLiteral(resourceName: "Dark-Netflix-Series"), forKey: "profile", compression: .low)
-                
+
         let medias : [Media?] = [
             image
         ]
-        
+
         let params : [String : Any] = [
-            "name":"Dhruv Govani",
-            "email":"govani@yopmail.com",
+            "name":"Dhruv Thakkar",
+            "email":"govani@lux.la",
             "phone":"555999111222",
             "id":75,
             "gender":"male",
@@ -27,22 +33,38 @@ class ViewController: UIViewController {
             "country":1
         ]
         
-        DGNetworkingServices.shared.MakeApiCall(Service: NetworkURL(withURL: "https://propertyauction-live.com/public/api/v2/update_profile"), Attachments: medias, HttpMethod: .post, parameters: params) { (Result) in
-            
+        DGNetworkingServices.main.delegate = self
+
+        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withURL: "https://propertyauction-live.com/api/v2/update_profile"), Attachments: medias, HttpMethod: .post, parameters: params) { (Result) in
+
             switch Result{
-                
+
             case .success(let Response):
                 print(Response.0)
+//                DispatchQueue.main.async {
+//                self.dismiss(animated: true, completion: nil)
+//                }
             case .failure(let error):
                 print(error.rawValue)
             }
-            
+
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withURL: "https://jsonplaceholder.typicode.com/todos/1"), Attachments: nil, HttpMethod: .get, parameters: nil) { (Response) in
+            switch Response{
+
+            case .success((_, _)):
+                print("done")
+            case .failure(_):
+                print("failed")
+                self.dismiss(animated: true, completion: nil)
+            }
+
+        }
         
     }
     
@@ -125,4 +147,10 @@ class ViewController: UIViewController {
 //        return body
 //    }
     
+}
+extension ViewController : DGNetworkingServicesDelegate{
+    func didProggressed(_ ProgressDone: Double) {
+        print(ProgressDone)
+        self.progressView.progress = Float(ProgressDone)
+    }
 }

@@ -11,6 +11,10 @@ import SystemConfiguration
 import UIKit
 import SystemConfiguration.CaptiveNetwork
 
+protocol DGNetworkingServicesDelegate : AnyObject {
+    func didProggressed(_ ProgressDone : Double)
+}
+
 ///Compression Quality For Image
 /// # CGFloats According to Cases
 /// -  lowest  = 0
@@ -31,12 +35,12 @@ struct Media {
     let fileName: String
     let data: Data
     let mimeType: String
-
+    
     init?(withJPEGImage JpegImage: UIImage, forKey key: String, compression : JPEGQuality) {
         self.key = key
         self.mimeType = "image/jpg"
         self.fileName = "\(arc4random()).jpeg"
-
+        
         guard let data = JpegImage.jpegData(compressionQuality: compression.rawValue) else { return nil }
         self.data = data
     }
@@ -44,8 +48,8 @@ struct Media {
     init?(withPNGImage pngImage: UIImage, forKey key: String) {
         self.key = key
         self.mimeType = "image/png"
-        self.fileName = "\(arc4random()).jpeg"
-
+        self.fileName = "\(arc4random()).png"
+        
         guard let data = pngImage.pngData() else { return nil }
         self.data = data
     }
@@ -54,7 +58,7 @@ struct Media {
         self.key = key
         self.mimeType = mimeType
         self.fileName = "\(arc4random()).\(fileType)"
-
+        
         guard let data = Media else { return nil }
         self.data = data
     }
@@ -97,7 +101,17 @@ enum httpMethod : String{
 
 class DGNetworkingServices {
     
-    static let shared = DGNetworkingServices()
+    deinit {
+        print("DGNetworkingServices Deinit")
+        observation?.invalidate()
+    }
+    
+    static let main = DGNetworkingServices()
+    
+    weak var delegate : DGNetworkingServicesDelegate? = nil
+    
+    private var observation: NSKeyValueObservation?
+    
     
     /// This function will make an Network Api Request will return the response.
     /// # Functionalties:
@@ -128,7 +142,9 @@ class DGNetworkingServices {
     func MakeApiCall(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
-            ResponseHandler(.failure(.NetworkError))
+            DispatchQueue.main.async {
+                ResponseHandler(.failure(.NetworkError))
+            }
             return
         }
         
@@ -144,20 +160,23 @@ class DGNetworkingServices {
             
             // checking if url string can convert to URLType or Not
             guard let URL = URL(string: url) else {
-                ResponseHandler(.failure(.BadUrl))
+                DispatchQueue.main.async {
+                    ResponseHandler(.failure(.BadUrl))
+                }
                 return
             }
             
             // init request object
             var request = URLRequest(url: URL)
-                        
+            
             // check if parameters are provided
             if let JSONParameters = parameters{
                 
                 // convert json parameters to httpbody
                 guard let httpBody = try? JSONSerialization.data(withJSONObject: JSONParameters, options: []) else {
-                    
-                    ResponseHandler(.failure(.BadParams))
+                    DispatchQueue.main.async {
+                        ResponseHandler(.failure(.BadParams))
+                    }
                     return
                 }
                 // if httpbody conversion succesfull
@@ -169,7 +188,6 @@ class DGNetworkingServices {
             request.setValue("application/json", forHTTPHeaderField: "accept")
             request.setValue("application/json", forHTTPHeaderField: "content-type")
             
-
             if let header = headers{
                 for (key,val) in  header{
                     request.setValue(val, forHTTPHeaderField: key)
@@ -178,37 +196,44 @@ class DGNetworkingServices {
             
             // session object init
             let session = URLSession.shared
-
+            
             // calling the url
-            session.dataTask(with: request) { (Data, HTTPResponse, HTTPError) in
+            let task = session.dataTask(with: request) { (Data, HTTPResponse, HTTPError) in
                 // check if response is nil or not nil
                 if let Response = HTTPResponse{
                     
                     // converting response to http response
                     let httpResponse = Response as? HTTPURLResponse
                     // status code switching
+                    self.observation?.invalidate()
                     switch httpResponse?.statusCode {
                     case 200,201,202,203:
                         
                         guard let data = Data else {
-                            ResponseHandler(.failure(.InvalidResponse))
+                            DispatchQueue.main.async {
+                                ResponseHandler(.failure(.InvalidResponse))
+                            }
                             return
                         }
                         
                         do {
-                           let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
                             
                             if let JSONData = json as? [String: Any]{
-                                
-                                ResponseHandler(.success((JSONData,data)))
+                                DispatchQueue.main.async {
+                                    ResponseHandler(.success((JSONData,data)))
+                                }
                                 
                             }else{
-                                ResponseHandler(.failure(.InvalidResponse))
+                                DispatchQueue.main.async {
+                                    ResponseHandler(.failure(.InvalidResponse))
+                                }
                             }
                         } catch  {
+                            DispatchQueue.main.async {
+                                ResponseHandler(.failure(.InvalidResponse))
+                            }
                             
-                            ResponseHandler(.failure(.InvalidResponse))
-
                         }
                     case 204:
                         
@@ -221,41 +246,71 @@ class DGNetworkingServices {
                         let dataOfString = "Your input is accepted by the server you were requesting".data(using: .utf16)
                         
                         if let data = dataOfString{
-                            
-                            ResponseHandler(.success((output,data)))
+                            DispatchQueue.main.async {
+                                
+                                ResponseHandler(.success((output,data)))
+                            }
                             
                         }else{
-                            ResponseHandler(.failure(.ConversionError))
+                            DispatchQueue.main.async {
+                                
+                                ResponseHandler(.failure(.ConversionError))
+                            }
                         }
                         
                     case 400:
-                        ResponseHandler(.failure(.BadRequest))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.BadRequest))
+                        }
                     case 401:
-                        ResponseHandler(.failure(.Forbidden))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.Forbidden))
+                        }
                     case 403:
-                        ResponseHandler(.failure(.Forbidden))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.Forbidden))
+                        }
                     case 404:
-                        ResponseHandler(.failure(.PageNotFound))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.PageNotFound))
+                        }
                     case 500:
-                        ResponseHandler(.failure(.ServerError))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.ServerError))
+                        }
                     default:
-                        ResponseHandler(.failure(.DefError))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.DefError))
+                        }
                     }
                     
                 }else{
                     if let httpError = HTTPError{
                         print(httpError.localizedDescription)
-                        ResponseHandler(.failure(.BadRequest))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.BadRequest))
+                        }
                     }else{
-                        ResponseHandler(.failure(.InvalidResponse))
+                        DispatchQueue.main.async {
+                            ResponseHandler(.failure(.InvalidResponse))
+                        }
                     }
                 }
                 
-            }.resume()
+            }
+            
+            observation = task.progress.observe(\.fractionCompleted) { (progress, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.didProggressed(progress.fractionCompleted)
+                }
+            }
+            
+            task.resume()
             
         }else{
-            
-            ResponseHandler(.failure(.BadUrl))
+            DispatchQueue.main.async {
+                ResponseHandler(.failure(.BadUrl))
+            }
             
         }
         
@@ -294,7 +349,9 @@ class DGNetworkingServices {
     func MakeApiCall(Service : NetworkURL, Attachments : [Media?]?, HttpMethod : httpMethod, parameters : [String : Any]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
-            ResponseHandler(.failure(.NetworkError))
+            DispatchQueue.main.async {
+                ResponseHandler(.failure(.NetworkError))
+            }
             return
         }
         
@@ -310,56 +367,60 @@ class DGNetworkingServices {
             
             // checking if url string can convert to URLType or Not
             guard let URL = URL(string: url) else {
-                ResponseHandler(.failure(.BadUrl))
+                DispatchQueue.main.async {
+                    
+                    ResponseHandler(.failure(.BadUrl))
+                }
                 return
             }
             
             let boundary = generateBoundary()
-
+            
             // init request object
             var request = URLRequest(url: URL)
-                        
+            
             //headers
             request.httpMethod = HttpMethod.rawValue
             request.setValue("application/json", forHTTPHeaderField: "accept")
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "content-type")
             
-            // body star
-            
-            let lineBreak = "\r\n"
-            var body = Data()
-            
-            if let params = parameters {
-                for (key, value) in params {
-                    body.append("--\(boundary + lineBreak)")
-                    body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
-                    body.append("\("\(value)" + lineBreak)")
-                }
-            }
-            
-            if let Medias = Attachments{
-                for Media in Medias{
-                    if let Att = Media{
+            // body start
+            if parameters != nil || Attachments != nil{
+                
+                let lineBreak = "\r\n"
+                var body = Data()
+                
+                if let params = parameters {
+                    for (key, value) in params {
                         body.append("--\(boundary + lineBreak)")
-                        body.append("Content-Disposition: form-data; name=\"\(Att.key)\"; filename=\"\(Att.fileName)\"\(lineBreak)")
-                        body.append("Content-Type: \(Att.mimeType + lineBreak + lineBreak)")
-                        body.append(Att.data)
-                        body.append(lineBreak)
+                        body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+                        body.append("\("\(value)" + lineBreak)")
                     }
                 }
+                
+                if let Medias = Attachments{
+                    for Media in Medias{
+                        if let Att = Media{
+                            body.append("--\(boundary + lineBreak)")
+                            body.append("Content-Disposition: form-data; name=\"\(Att.key)\"; filename=\"\(Att.fileName)\"\(lineBreak)")
+                            body.append("Content-Type: \(Att.mimeType + lineBreak + lineBreak)")
+                            body.append(Att.data)
+                            body.append(lineBreak)
+                        }
+                    }
+                }
+                
+                body.append("--\(boundary)--\(lineBreak)")
+                
+                request.httpBody = body
             }
-    
-            body.append("--\(boundary)--\(lineBreak)")
-            
             // body end
-
-            request.httpBody = body
             
             // session object init
             let session = URLSession.shared
             
             // calling the url
-            session.dataTask(with: request) { (Data, HTTPResponse, HTTPError) in
+            let task = session.dataTask(with: request) { (Data, HTTPResponse, HTTPError) in
                 // check if response is nil or not nil
                 if let Response = HTTPResponse{
                     
@@ -370,24 +431,38 @@ class DGNetworkingServices {
                     case 200,201,202,203:
                         
                         guard let data = Data else {
-                            ResponseHandler(.failure(.InvalidResponse))
+                            DispatchQueue.main.async {
+                                
+                                ResponseHandler(.failure(.InvalidResponse))
+                            }
                             return
                         }
                         
                         do {
-                           let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
                             
                             if let JSONData = json as? [String: Any]{
-                                
-                                ResponseHandler(.success((JSONData,data)))
+                                DispatchQueue.main.async {
+                                    
+                                    DispatchQueue.main.async {
+                                        
+                                        ResponseHandler(.success((JSONData,data)))
+                                    }
+                                    
+                                }
                                 
                             }else{
-                                ResponseHandler(.failure(.InvalidResponse))
+                                DispatchQueue.main.async {
+                                    
+                                    ResponseHandler(.failure(.InvalidResponse))
+                                }
                             }
                         } catch  {
+                            DispatchQueue.main.async {
+                                
+                                ResponseHandler(.failure(.InvalidResponse))
+                            }
                             
-                            ResponseHandler(.failure(.InvalidResponse))
-
                         }
                     case 204:
                         
@@ -400,41 +475,80 @@ class DGNetworkingServices {
                         let dataOfString = "Your input is accepted by the server you were requesting".data(using: .utf16)
                         
                         if let data = dataOfString{
-                            
-                            ResponseHandler(.success((output,data)))
+                            DispatchQueue.main.async {
+                                
+                                
+                                ResponseHandler(.success((output,data)))
+                                
+                            }
                             
                         }else{
-                            ResponseHandler(.failure(.ConversionError))
+                            DispatchQueue.main.async {
+                                
+                                ResponseHandler(.failure(.ConversionError))
+                            }
                         }
                         
                     case 400:
-                        ResponseHandler(.failure(.BadRequest))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.BadRequest))
+                        }
                     case 401:
-                        ResponseHandler(.failure(.Forbidden))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.Forbidden))
+                        }
                     case 403:
-                        ResponseHandler(.failure(.Forbidden))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.Forbidden))
+                        }
                     case 404:
-                        ResponseHandler(.failure(.PageNotFound))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.PageNotFound))
+                        }
                     case 500:
-                        ResponseHandler(.failure(.ServerError))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.ServerError))
+                        }
                     default:
-                        ResponseHandler(.failure(.DefError))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.DefError))
+                        }
                     }
                     
                 }else{
                     if let httpError = HTTPError{
                         print(httpError.localizedDescription)
-                        ResponseHandler(.failure(.BadRequest))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.BadRequest))
+                        }
                     }else{
-                        ResponseHandler(.failure(.InvalidResponse))
+                        DispatchQueue.main.async {
+                            
+                            ResponseHandler(.failure(.InvalidResponse))
+                        }
                     }
                 }
                 
-            }.resume()
+            }
+            observation = task.progress.observe(\.fractionCompleted) { (progress, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.didProggressed(progress.fractionCompleted)
+                }
+            }
+            task.resume()
             
         }else{
-            
-            ResponseHandler(.failure(.BadUrl))
+            DispatchQueue.main.async {
+                
+                ResponseHandler(.failure(.BadUrl))
+            }
             
         }
         
