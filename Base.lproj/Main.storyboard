@@ -42,22 +42,9 @@
                     <view key="view" contentMode="scaleToFill" id="tkV-JJ-Bea">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q0U-Y0-MFX">
-                                <rect key="frame" x="105" y="403" width="204" height="2"/>
-                            </progressView>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="Q0U-Y0-MFX" firstAttribute="centerX" secondItem="yRd-jc-j0M" secondAttribute="centerX" id="EwR-nG-1QX"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Q0U-Y0-MFX" secondAttribute="trailing" constant="85" id="cxr-1T-Iy0"/>
-                            <constraint firstItem="Q0U-Y0-MFX" firstAttribute="centerY" secondItem="yRd-jc-j0M" secondAttribute="centerY" id="xL7-S8-HUh"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="yRd-jc-j0M"/>
                     </view>
-                    <connections>
-                        <outlet property="progressView" destination="Q0U-Y0-MFX" id="5dP-ea-SWz"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K6r-8k-UlI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
