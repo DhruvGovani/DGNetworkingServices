@@ -91,18 +91,20 @@ struct NetworkURL {
 
 enum NError : String, Error{
     case invalidMethod = "The Method You are using for the service is invalid."
-    case PageNotFound = "The Service You are looking for is no longer available. 404"
+    case PageNotFound = "The Service You are looking for is no longer available."
     case ServerError = "The Server is not responding, Please try again after some time."
     case InvalidResponse = "Invalid Response From Server Try again."
     case NetworkError = "it looks like Your device is offline please make sure your internet connection is Stable."
     case BadUrl = "Please check the Service you are trying to request."
     case BadParams = "Please Check the parameters you are providing."
-    case BadRequest = "Bad Reuest. Please try again. 400."
-    case Forbidden = "You are not authorised for this request. 401"
+    case BadRequest = "Bad Reuest. Please try again."
+    case Forbidden = "You are not authorised for this request."
     case DefError = "Please Check Source of App."
     case headerError = "Please provide valid headers."
-    case BadAttachments = "Please Check the attachments you are providing"
+    case BadAttachments = "Please Check the attachments you are providing."
     case ConversionError = "Your Request is successfull, but data conversion failed."
+    case FileAlreadyExist = "File Already Exist."
+    case DocAccessError = "Document Folder Access Forbidden"
 }
 
 enum httpMethod : String{
@@ -211,11 +213,22 @@ class DGNetworkingServices {
         observation?.invalidate()
     }
     
+    struct RequestSettings {
+        var timeoutInterval : TimeInterval?
+        var cachePolicy : URLRequest.CachePolicy?
+        var UseExpensiveNetwork : Bool?
+        var MakeCallOnLowDataMode : Bool?
+        var ServiceType : URLRequest.NetworkServiceType?
+        var SessionConfig : URLSessionConfiguration?
+    }
+    
     static let main = DGNetworkingServices()
     
     weak var delegate : DGNetworkingServicesDelegate? = nil
     
     private var observation: NSKeyValueObservation?
+    
+    var AdditionalRequestSettings : RequestSettings?
     
     /// This function will make an Network Api Request will return the response.
     /// # Functionalties:
@@ -274,7 +287,7 @@ class DGNetworkingServices {
             
             // init request object
             var request = URLRequest(url: URL)
-            
+           
             // check if parameters are provided
             if let JSONParameters = parameters{
                 
@@ -683,36 +696,140 @@ class DGNetworkingServices {
     /// - parameter RemoteUrl : full length Static URL you wants to downloadFile
     /// - parameter fileName : name of the file
     /// - parameter Extension: file extension (e.g. pdf,docx,xlsx)
-    func downloadFile(RemoteUrl : String, fileName : String, Extension : String,completion : @escaping (_ success : Bool,_ filelocation : URL?) -> Void){
+    func downloadFile(Service : NetworkURL, fileName : String, Extension : String, headers : [String : String]?,completion : @escaping (Result<URL, NError>) -> Void){
         
+        guard Reachability().isConnected() else {
+            DispatchQueue.main.async {
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: nil, headers: nil, response: nil, message: NError.NetworkError.rawValue, Method: "POST")
+                completion(.failure(.NetworkError))
+            }
+            return
+        }
         
-        let itemUrl = URL(string: RemoteUrl)
+        let url = Service.Url
         
-        let documentDirectoruUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        // Comment Code if you don't want to print the url being called
+        print(url)
+        
+        guard let documentDirectoruUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else{
+            completion(.failure(.DocAccessError))
+            return
+        }
         
         let destinationUrl = documentDirectoruUrl.appendingPathComponent("\(fileName).\(Extension)")
         
         if FileManager.default.fileExists(atPath: destinationUrl.path){
-            debugPrint("The File Already Exist")
-            completion(true, destinationUrl)
+            
+            completion(.success(destinationUrl))
+            
         }else{
             
-            URLSession.shared.downloadTask(with: itemUrl!) { (url, response
-            , error) in
-                
-                guard let tempLocation = url, error == nil else { return }
-                
-                do{
-                    try FileManager.default.moveItem(at: tempLocation, to: destinationUrl)
-                    completion(true, destinationUrl)
-                } catch let error as NSError{
-                    print(error.localizedDescription)
-                    completion(false, nil)
+            guard url.isValidURL == true else {
+                completion(.failure(.BadUrl))
+                return
+            }
+            
+            guard let DownloadURL = URL(string: url) else {
+                DispatchQueue.main.async {
+                    
+                    completion(.failure(.BadUrl))
                 }
-                
-            }.resume()
+                return
+            }
+            
+            var Request = URLRequest(url: DownloadURL)
+            
+            if let header = headers{
+                for (key,val) in  header{
+                    Request.setValue(val, forHTTPHeaderField: key)
+                }
+            }
+            
+            let Session = URLSession.shared.downloadTask(with: Request) { (URL, HTTPResponse, Error) in
+                if let Response = HTTPResponse{
+                    
+                    if let httpResponse = Response as? HTTPURLResponse{
+                        
+                        switch httpResponse.statusCode {
+                        case 200,201,202,203:
+                            guard let tempLocation = URL, Error == nil else {
+                                print(Error ?? "")
+                                DispatchQueue.main.async {
+                                    completion(.failure(.DocAccessError))
+                                }
+                                return
+                            }
+                            
+                            do{
+                                try FileManager.default.moveItem(at: tempLocation, to: destinationUrl)
+                                completion(.success(destinationUrl))
+                            } catch let error as NSError{
+                                print(error)
+                                DispatchQueue.main.async {
+                                    completion(.failure(.DocAccessError))
+                                }
+                            }
+                            
+                        case 400:
+                            DispatchQueue.main.async {
+                               // DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                                completion(.failure(.BadRequest))
+
+                            }
+                        case 401, 403:
+                            DispatchQueue.main.async {
+                              //  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue)
+                                completion(.failure(.Forbidden))
+
+                            }
+                        case 404:
+                            DispatchQueue.main.async {
+                              //  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
+                                completion(.failure(.PageNotFound))
+                            }
+                        case 500:
+                            DispatchQueue.main.async {
+                              //  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
+                                completion(.failure(.ServerError))
+                            }
+                        default:
+                            completion(.failure(.DefError))
+                        }
+                    }else{
+                        guard let tempLocation = URL, Error == nil else {
+                            print(Error ?? "")
+                            completion(.failure(.DocAccessError))
+                            return
+                        }
+                        
+                        do{
+                            try FileManager.default.moveItem(at: tempLocation, to: destinationUrl)
+                            completion(.success(destinationUrl))
+                        } catch let error as NSError{
+                            print(error)
+                            completion(.failure(.DocAccessError))
+                        }
+                    }
+                    
+                }
+            }
+            
+            observation = Session.progress.observe(\.fractionCompleted) { (progress, _) in
+                DispatchQueue.main.async {
+                    self.delegate?.didProggressed(progress.fractionCompleted)
+                }
+            }
+            
+            Session.resume()
             
         }
+        
+        
+    }
+    
+    func UploadFile(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
+        
+        
         
         
     }

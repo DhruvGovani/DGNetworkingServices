@@ -15,23 +15,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DGNetworkLogs.shared.logging.request = true
-        DGNetworkLogs.shared.logging.response = true
+        DGNetworkingServices.main.delegate = self
         
-        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withURL: "https://jsonplaceholder.typicode.com/todos/1"), HttpMethod: .get, parameters: nil, headers: nil) { (Result) in
-            
+        DGNetworkingServices.main.downloadFile(Service: NetworkURL(withURL: "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"), fileName: "TestVideo", Extension: "mp4", headers: nil) { (Result) in
             switch Result{
-            case .success(let Response):
-                print(Response.0)
-                DGNetworkLogs.shared.PrintNetworkLogs(filterByUrl: nil, filterByStatusCode: nil)
-            case .failure(let error):
-                print(error.rawValue)
+            case .success(let URL):
+                print(URL)
+            case .failure(let Error):
+                print(Error.rawValue)
             }
-            
-            
         }
 
         
     }
 }
 
+extension ViewController : DGNetworkingServicesDelegate{
+    func didProggressed(_ ProgressDone: Double) {
+        print(ProgressDone)
+    }
+    
+}
