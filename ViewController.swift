@@ -17,10 +17,20 @@ class ViewController: UIViewController {
         
         DGNetworkingServices.main.delegate = self
         
-        DGNetworkingServices.main.downloadFile(Service: NetworkURL(withURL: "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"), fileName: "TestVideo", Extension: "mp4", headers: nil) { (Result) in
+        DGNetworkingServices.main.downloadFile(Service: NetworkURL(withURL: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4"), fileName: "TestVideo2", Extension: "mp4", headers: nil) { (Result) in
             switch Result{
-            case .success(let URL):
-                print(URL)
+            case .success(let FileURL):
+                
+                DispatchQueue.main.async {
+                    DGNetworkingServices.main.SaveFileToPhotos(fileUrl: FileURL, Type: .Video) { (Status, error) in
+                        if Status == true{
+                            print("Item Downloaded and stored")
+                        }else{
+                            print(error?.localizedDescription ?? "Item Download Error")
+                        }
+                    }
+                }
+               
             case .failure(let Error):
                 print(Error.rawValue)
             }

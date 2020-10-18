@@ -10,6 +10,7 @@ import Foundation
 import SystemConfiguration
 import UIKit
 import SystemConfiguration.CaptiveNetwork
+import Photos
 
 protocol DGNetworkingServicesDelegate : AnyObject {
     func didProggressed(_ ProgressDone : Double)
@@ -74,6 +75,12 @@ struct Media {
     }
 }
 
+struct File{
+    var FileUrl : URL
+    var FileName : String
+    var mimeType : String
+}
+
 struct NetworkURL {
     let Url: String
     
@@ -105,10 +112,15 @@ enum NError : String, Error{
     case ConversionError = "Your Request is successfull, but data conversion failed."
     case FileAlreadyExist = "File Already Exist."
     case DocAccessError = "Document Folder Access Forbidden"
+    case FileNotFound = "No Data Found on the directory you provided"
 }
 
 enum httpMethod : String{
     case get = "GET", post = "POST", delete = "DELETE", patch = "PATCH", put = "PUT", copy = "COPY", head = "HEAD", options = "OPTIONS", link = "LINK", unlink = "UNLINK", purge = "PURGE", lock = "LOCK", unlock = "UNLOCK", propfind = "PROPFIND", view = "VIEW"
+}
+
+enum MediaType{
+    case Photo, Video
 }
 
 class DGNetworkLogs {
@@ -827,11 +839,225 @@ class DGNetworkingServices {
         
     }
     
-    func UploadFile(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
+    func SaveFileToPhotos(fileUrl : URL, Type : MediaType, completion : @escaping ((Bool,Error?) -> ())){
         
+        if PHPhotoLibrary.authorizationStatus() == .authorized{
+            
+            PHPhotoLibrary.shared().performChanges {
+                if Type == .Photo{
+                    PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: fileUrl)
+                }else{
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileUrl)
+                }
+            } completionHandler: { (status, error) in
+                completion(status,error)
+            }
+        }else{
+            PHPhotoLibrary.requestAuthorization { (status) in
+                if status == .authorized{
+                    self.SaveFileToPhotos(fileUrl: fileUrl, Type: Type, completion: completion)
+                }
+            }
+        }
+
+    }
+
+    
+    func UploadFile(Service : NetworkURL, HttpMethod : httpMethod, fileUrl : URL,parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
+        guard Reachability().isConnected() else {
+            DispatchQueue.main.async {
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue)
+                ResponseHandler(.failure(.NetworkError))
+            }
+            return
+        }
         
+        // Appending Your baseUrl and Version with Service
+        let url = Service.Url
         
+        // Comment Code if you don't want to print the url being called
+        print(url)
+        
+        if url.isValidURL{
+            
+            guard let URL = URL(string: url) else {
+                DispatchQueue.main.async {
+                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                    ResponseHandler(.failure(.BadUrl))
+                }
+                return
+            }
+            
+            
+            do{
+                let fileData = try Data(contentsOf: fileUrl)
+                
+                var request = URLRequest(url: URL)
+                
+                request.httpMethod = HttpMethod.rawValue
+                
+                let boundary = generateBoundary()
+                
+                request.setValue("application/json", forHTTPHeaderField: "accept")
+                request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "content-type")
+                
+                if let header = headers{
+                    for (key,val) in  header{
+                        request.setValue(val, forHTTPHeaderField: key)
+                    }
+                }
+                
+                let sessionConfig = URLSessionConfiguration.background(withIdentifier: url)
+                
+                sessionConfig.isDiscretionary = true
+                sessionConfig.timeoutIntervalForRequest = 600
+                
+                let session = URLSession(configuration: sessionConfig, delegate: nil, delegateQueue: .main)
+                
+                if let JSONParameters = parameters{
+                    
+                    // convert json parameters to httpbody
+                    guard let httpBody = try? JSONSerialization.data(withJSONObject: JSONParameters, options: []) else {
+                        DispatchQueue.main.async {
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue)
+                            ResponseHandler(.failure(.BadParams))
+                        }
+                        return
+                    }
+                    // if httpbody conversion succesfull
+                    request.httpBody = httpBody
+                }
+                
+                let task = session.uploadTask(with: request, from: fileData) { (Data, HTTPResponse, HTTPError) in
+                    
+                    // check if response is nil or not nil
+                    if let Response = HTTPResponse{
+                        
+                        // converting response to http response
+                        let httpResponse = Response as? HTTPURLResponse
+                        // status code switching
+                        self.observation?.invalidate()
+                        switch httpResponse?.statusCode {
+                        case 200,201,202,203:
+                            
+                            guard let data = Data else {
+                                DispatchQueue.main.async {
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    ResponseHandler(.failure(.InvalidResponse))
+                                }
+                                return
+                            }
+                            
+                            do {
+                                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                                
+                                if let JSONData = json as? [String: Any]{
+                                    DispatchQueue.main.async {
+                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue)
+                                        ResponseHandler(.success((JSONData,data)))
+                                    }
+                                    
+                                }else{
+                                    DispatchQueue.main.async {
+                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                        ResponseHandler(.failure(.InvalidResponse))
+                                    }
+                                }
+                            } catch  {
+                                DispatchQueue.main.async {
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    ResponseHandler(.failure(.InvalidResponse))
+                                }
+                                
+                            }
+                        case 204:
+                            
+                            let output : [String : Any] = [
+                                "status" : "201",
+                                "message" : "Your input is accepted by the server you were requesting",
+                                "MessageBy" : "DGNetworkingServices"
+                            ]
+                            
+                            let dataOfString = "Your input is accepted by the server you were requesting".data(using: .utf16)
+                            
+                            if let data = dataOfString{
+                                DispatchQueue.main.async {
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue)
+                                    ResponseHandler(.success((output,data)))
+                                }
+                                
+                            }else{
+                                DispatchQueue.main.async {
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                    ResponseHandler(.failure(.ConversionError))
+                                }
+                            }
+                            
+                        case 400:
+                            DispatchQueue.main.async {
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.BadRequest))
+                            }
+                        case 401, 403:
+                            DispatchQueue.main.async {
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.Forbidden))
+                            }
+                        case 404:
+                            DispatchQueue.main.async {
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.PageNotFound))
+                            }
+                        case 500:
+                            DispatchQueue.main.async {
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.ServerError))
+                            }
+                        default:
+                            DispatchQueue.main.async {
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.DefError))
+                            }
+                        }
+                        
+                    }else{
+                        if let httpError = HTTPError{
+                            print(httpError.localizedDescription)
+                            DispatchQueue.main.async {
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.BadRequest))
+                            }
+                        }else{
+                            DispatchQueue.main.async {
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.InvalidResponse))
+                            }
+                        }
+                    }
+                    
+                }
+                
+                observation = task.progress.observe(\.fractionCompleted) { (progress, _) in
+                    DispatchQueue.main.async {
+                        self.delegate?.didProggressed(progress.fractionCompleted)
+                    }
+                }
+                
+                task.resume()
+                
+                
+            }catch{
+                print(error)
+                ResponseHandler(.failure(.DocAccessError))
+            }
+            
+        }else{
+            DispatchQueue.main.async {
+                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                ResponseHandler(.failure(.BadUrl))
+            }
+        }
     }
     
     func toJSON(data : Data) -> [String : Any]?{
