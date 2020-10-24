@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "DGNetworkingServices"
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
   spec.summary      = "DGNetworkingServices allows you to Make REST API Calls with low effort of code writing."
 
    spec.description  = <<-DESC
@@ -13,7 +13,6 @@ DGNetworkingServices Allows you to Make Complex REST API Calls with snap of fing
                    DESC
 
   spec.homepage     = "https://github.com/DhruvGovani/DGNetworkingServices"
-  
 
 
   spec.license      = { :type => "MIT", :file => "LICENSE" }
