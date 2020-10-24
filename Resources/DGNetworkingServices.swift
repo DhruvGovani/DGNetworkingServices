@@ -1,231 +1,64 @@
 //
 //  DGNetworkingServices.swift
-//  Playground
+//  DGNetworkingServices
 //
 //  Created by Dhruv Govani on 27/06/20.
 //  Copyright © 2020 Dhruv Govani. All rights reserved.
 //
+/*
+ 
+MIT License
+
+Copyright (c) 2020 Dhruv Govani
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ 
+*/
 
 import Foundation
-import SystemConfiguration
 import UIKit
-import SystemConfiguration.CaptiveNetwork
 import Photos
 
-protocol DGNetworkingServicesDelegate : AnyObject {
-    func didProggressed(_ ProgressDone : Double)
-}
 
-///Compression Quality For Image
-/// # CGFloats According to Cases
-/// -  lowest  = 0
-/// -  low     = 0.25
-/// -  medium  = 0.5
-/// -  high    = 0.75
-/// -  highest = 1
-enum JPEGQuality: CGFloat {
-    case lowest  = 0
-    case low     = 0.25
-    case medium  = 0.5
-    case high    = 0.75
-    case highest = 1
-}
-
-struct Log {
-    var request : Bool
-    var response : Bool
-    
-    init(logRequest : Bool, logResponse : Bool) {
-        self.request = logRequest
-        self.response = logResponse
-    }
-}
-
-struct Media {
-    let key: String
-    let fileName: String
-    let data: Data
-    let mimeType: String
-    
-    init?(withJPEGImage JpegImage: UIImage, forKey key: String, compression : JPEGQuality) {
-        self.key = key
-        self.mimeType = "image/jpg"
-        self.fileName = "\(arc4random()).jpeg"
-        
-        guard let data = JpegImage.jpegData(compressionQuality: compression.rawValue) else { return nil }
-        self.data = data
-    }
-    
-    init?(withPNGImage pngImage: UIImage, forKey key: String) {
-        self.key = key
-        self.mimeType = "image/png"
-        self.fileName = "\(arc4random()).png"
-        
-        guard let data = pngImage.pngData() else { return nil }
-        self.data = data
-    }
-    
-    init?(key : String, Media : Data?, mimeType : String, fileType : String){
-        self.key = key
-        self.mimeType = mimeType
-        self.fileName = "\(arc4random()).\(fileType)"
-        
-        guard let data = Media else { return nil }
-        self.data = data
-    }
-}
-
-struct File{
-    var FileUrl : URL
-    var FileName : String
-    var mimeType : String
-}
-
-struct NetworkURL {
-    let Url: String
-    
-    init(withService Service : String) {
-        if BaseUrl == ""{
-            assertionFailure("Base URL is Blank. Set in DGGlobalSharedVariable.swift")
-        }
-        self.Url = "\(BaseUrl)\(APIVersion)\(Service)"
-    }
-    
-    init(withURL Url : String) {
-        self.Url = Url
-    }
-}
-
-enum NError : String, Error{
-    case invalidMethod = "The Method You are using for the service is invalid."
-    case PageNotFound = "The Service You are looking for is no longer available."
-    case ServerError = "The Server is not responding, Please try again after some time."
-    case InvalidResponse = "Invalid Response From Server Try again."
-    case NetworkError = "it looks like Your device is offline please make sure your internet connection is Stable."
-    case BadUrl = "Please check the Service you are trying to request."
-    case BadParams = "Please Check the parameters you are providing."
-    case BadRequest = "Bad Reuest. Please try again."
-    case Forbidden = "You are not authorised for this request."
-    case DefError = "Please Check Source of App."
-    case headerError = "Please provide valid headers."
-    case BadAttachments = "Please Check the attachments you are providing."
-    case ConversionError = "Your Request is successfull, but data conversion failed."
-    case FileAlreadyExist = "File Already Exist."
-    case DocAccessError = "Document Folder Access Forbidden"
-    case FileNotFound = "No Data Found on the directory you provided"
-}
-
-enum httpMethod : String{
-    case get = "GET", post = "POST", delete = "DELETE", patch = "PATCH", put = "PUT", copy = "COPY", head = "HEAD", options = "OPTIONS", link = "LINK", unlink = "UNLINK", purge = "PURGE", lock = "LOCK", unlock = "UNLOCK", propfind = "PROPFIND", view = "VIEW"
-}
-
-enum MediaType{
-    case Photo, Video
-}
-
-class DGNetworkLogs {
-    
-    struct DGLog{
-        var url : String?
-        var time : Date?
-        var statusCode : Int?
-        var parameters : [String : Any]?
-        var headers : [String : String]?
-        var response : [String : Any]?
-        var message : String?
-        var httpMethod : String
-    }
-    
-    static let shared = DGNetworkLogs()
-    
-    private var Logs = [DGLog]()
-    
-    var logging : Log = Log(logRequest: false, logResponse: false)
-    
-    func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String) {
-        
-        if logging.request == true{
-            if logging.response == true{
-                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: response, message: message, httpMethod: Method))
-            }else{
-                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: nil, message: message, httpMethod: Method))
-            }
-        }
-        
-    }
-    
-    func PrintNetworkLogs(filterByUrl : String?, filterByStatusCode : Int?){
-        
-        if Logs.count <= 0{
-            return
-        }
-        
-        var logtoReturn = [DGLog]()
-        
-        if filterByUrl != nil && filterByStatusCode != nil{
-            
-            if let furl = filterByUrl{
-                for L in 0...Logs.count - 1{
-                    if Logs[L].url == furl{
-                        logtoReturn.append(Logs[L])
-                    }
-                }
-            }
-            
-            if let fStatsus = filterByStatusCode{
-                for L in 0...Logs.count - 1{
-                    if Logs[L].statusCode == fStatsus{
-                        logtoReturn.append(Logs[L])
-                    }
-                }
-            }
-            
-        }else{
-            for L in 0...Logs.count - 1{
-                
-                logtoReturn.append(Logs[L])
-                
-            }
-        }
-        print("--------NETWORK LOG(S)----------")
-        for L in 0...logtoReturn.count - 1{
-            
-            let Log = logtoReturn[L]
-            print("\nLog ID : \(L+1)")
-            print("URL : \(Log.url ?? "not found")")
-            print("Method : \(Log.httpMethod)")
-            print("statusCode : \(String(Log.statusCode ?? 0))")
-            if Log.parameters != nil{
-                print("Parameters : \(Log.parameters!)")
-            }
-            if Log.headers != nil{
-                print("Headers : \(Log.headers!)")
-            }
-            if Log.response != nil{
-                print("Response : \(Log.response!)")
-            }
-            if Log.message != nil{
-                print("Message : \(Log.message!)")
-            }
-            if Log.time != nil{
-                print("Log Time : \(Log.time!)")
-            }
-        }
-
-        print("\n--------NETWORK LOG(S)----------")
-        print("\nto Stop this from prinitng Set DGNetworkLogs.shared.logging.request / response to false")
-
-    }
-}
-
+/// # Functionalties:
+/// 1.  URL Configurable
+/// 2.  Easy Header, Parameters and Media Support
+/// 3.  Response in Both Dictionary and Data
+/// 4.  More Specific Error
+/// 5. Logging for Better Debugging
+/// 6. Observation of Call Proggress
+/// 7. Easy To Use
+/// 8. Other Useful Functionalities
+/// 9. Simple Success and Failure Completion Handler
+/// 10. Multilayer Validations
+/// 11. Pure Swift and URLSession APIs
+/// 12. No Third Party and Easy to Understand CodeBase
+/// ### Many More Advanced Feature to come....
 class DGNetworkingServices {
     
     deinit {
         print("DGNetworkingServices Deinit")
         observation?.invalidate()
     }
-    
-    struct RequestSettings {
+    /// ADVANCE FEATURE UNDER CONSTRUCTION. WILL BE INCLUDED IN BETA 2
+    /// - note : DO NOT MESS WITH THE STRUCT
+    private struct RequestSettings {
         var timeoutInterval : TimeInterval?
         var cachePolicy : URLRequest.CachePolicy?
         var UseExpensiveNetwork : Bool?
@@ -236,18 +69,18 @@ class DGNetworkingServices {
     
     static let main = DGNetworkingServices()
     
+    /// Set Delegate to self to get the Call Back for every fraction proggress made in the Call
     weak var delegate : DGNetworkingServicesDelegate? = nil
     
     private var observation: NSKeyValueObservation?
     
-    var AdditionalRequestSettings : RequestSettings?
+    /// ADVANCE FEATURE UNDER CONSTRUCTION. WILL BE INCLUDED IN BETA 2
+    /// - note : DO NOT MESS WITH THE VAR
+    private var AdditionalRequestSettings : RequestSettings?
+    
+    private typealias Mimes = [String: String]
     
     /// This function will make an Network Api Request will return the response.
-    /// # Functionalties:
-    /// 1.  URL Configurable
-    /// 2.  Header Specifications
-    /// 3.  Response in Both Dictionary and Data
-    /// 4.  More Specific Error
     /// - parameter Service : Serivce URL to call
     /// - parameter HttpMethod : HTTP method use for URL Request
     /// - parameter parameters : Parameters you wanted to pass with URL Request
@@ -265,9 +98,10 @@ class DGNetworkingServices {
     ///            - Data
     /// -       Response.0 /// for [String : Any]
     /// -       Response.1 /// for Data
-    ///   - Faliure : if Request is successful
+    ///   - Faliure : if Request is failed
     ///       - returns Error in NSError
     /// -       Error.rawValue
+    /// # SEE DOCUMENTATION FOR MORE INFO
     func MakeApiCall(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
@@ -411,6 +245,11 @@ class DGNetworkingServices {
                              DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
                             ResponseHandler(.failure(.PageNotFound))
                         }
+                    case 405:
+                        DispatchQueue.main.async {
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                            ResponseHandler(.failure(.invalidMethod))
+                        }
                     case 500:
                         DispatchQueue.main.async {
                              DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
@@ -476,7 +315,9 @@ class DGNetworkingServices {
     /// -       NetworkURL(withURL: "https://www.google.com")
     /// -       NetworkURL(withService: "getEmployees")
     /// # Attachments:
-    /// - Create a Media object and pass it inside an array of Media
+    /// - Create an Optional Media object and pass it inside an optionnal array of Media
+    /// - Media and its Array has to be Optional to Avoid the crashes and other issues
+    /// - See Documentation for More Details and USAGE
     /// # ResponseHandler:
     /// - This Will Have two cases
     ///   - Success : if Request is successful
@@ -485,7 +326,7 @@ class DGNetworkingServices {
     ///            - Data
     /// -       Response.0 /// for [String : Any]
     /// -       Response.1 /// for Data
-    ///   - Faliure : if Request is successful
+    ///   - Faliure : if Request is failed
     ///       - returns Error in NSError
     /// -       Error.rawValue
     func MakeApiCall(Service : NetworkURL, Attachments : [Media?]?, HttpMethod : httpMethod, parameters : [String : Any]?,headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
@@ -653,6 +494,11 @@ class DGNetworkingServices {
                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
                             ResponseHandler(.failure(.PageNotFound))
                         }
+                    case 405:
+                        DispatchQueue.main.async {
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                            ResponseHandler(.failure(.invalidMethod))
+                        }
                     case 500:
                         DispatchQueue.main.async {
                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
@@ -700,14 +546,25 @@ class DGNetworkingServices {
     }
     
     
-    /// This function will download the file from the specified url and stores the file in device memory.
-    /// - result have Following cases : true and false
-    /// - Switch the Result and just fix the error which comes in the screen
-    /// - Success : Api Call will return file location in device
-    /// - Failures : Api Call will return error
-    /// - parameter RemoteUrl : full length Static URL you wants to downloadFile
-    /// - parameter fileName : name of the file
-    /// - parameter Extension: file extension (e.g. pdf,docx,xlsx)
+    /// This function will make an Network Api Request to download the attached file to URL.
+    /// - parameter Service : Serivce URL to download the file
+    /// - parameter fileName : Name of file to use to store in the memory
+    /// - parameter Extension : Extension of the file to store the file in certain type
+    /// - parameter parameters : Parameters you wanted to pass with URL Request
+    /// - parameter headers : Headers you wanted set for the Download request
+    /// - parameter completion : Response Handler with ResultType
+    /// # Service:
+    /// - Service is of `NetworkURL` which can be used as follows :
+    /// -       NetworkURL(withURL: "https://www.google.com")
+    /// -       NetworkURL(withService: "getEmployees")
+    /// # ResponseHandler:
+    /// - This Will Have two cases
+    ///   - Success : if download is successful
+    ///       - returns Location URL of the downloaded file
+    ///       - use the returned URL to Share or Save file in a permanant location
+    ///   - Faliure : if Download fails
+    ///       - returns Error in NSError
+    /// -       Error.rawValue
     func downloadFile(Service : NetworkURL, fileName : String, Extension : String, headers : [String : String]?,completion : @escaping (Result<URL, NError>) -> Void){
         
         guard Reachability().isConnected() else {
@@ -799,6 +656,11 @@ class DGNetworkingServices {
                               //  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
                                 completion(.failure(.PageNotFound))
                             }
+                        case 405:
+                            DispatchQueue.main.async {
+//                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                                completion(.failure(.invalidMethod))
+                            }
                         case 500:
                             DispatchQueue.main.async {
                               //  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
@@ -862,7 +724,29 @@ class DGNetworkingServices {
 
     }
 
-    
+    /// This function will make an Network Api Request will return the response.
+    /// - parameter Service : Serivce URL to download the file
+    /// - parameter fileName : Name of file to use to store in the memory
+    /// - parameter fileUrl : URL of the file to be upload
+    /// - parameter parameters : Parameters you wanted to pass with Upload Request
+    /// - parameter headers : Headers you wanted set for the Upload request
+    /// - parameter ResponseHandler : Response Handler with ResultType
+    /// # Service:
+    /// - Service is of `NetworkURL` which can be used as follows :
+    /// -       NetworkURL(withURL: "https://www.google.com")
+    /// -       NetworkURL(withService: "getEmployees")
+    /// # ResponseHandler:
+    /// - This Will Have two cases
+    ///   - Success : if upload Request is successful
+    ///       - returns response in:
+    ///           - [String : Any]
+    ///            - Data
+    /// -       Response.0 /// for [String : Any]
+    /// -       Response.1 /// for Data
+    ///   - Faliure : if Request is failed
+    ///       - returns Error in NSError
+    /// -       Error.rawValue
+    /// # SEE DOCUMENTATION FOR MORE INFO
     func UploadFile(Service : NetworkURL, HttpMethod : httpMethod, fileUrl : URL,parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
@@ -1009,6 +893,11 @@ class DGNetworkingServices {
                                  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
                                 ResponseHandler(.failure(.PageNotFound))
                             }
+                        case 405:
+                            DispatchQueue.main.async {
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.failure(.invalidMethod))
+                            }
                         case 500:
                             DispatchQueue.main.async {
                                  DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
@@ -1060,6 +949,9 @@ class DGNetworkingServices {
         }
     }
     
+    /// This Function will convert the Data to Dictionary
+    /// - parameter data : Response data you wanted to convert in [String : Any]
+    /// - function will return nil if conversion fails
     func toJSON(data : Data) -> [String : Any]?{
         
         do {
@@ -1084,118 +976,28 @@ class DGNetworkingServices {
         return "Boundary-\(NSUUID().uuidString)"
     }
     
-}
-
-extension String {
-    var isValidURL: Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
-            // it is a link, if the match covers the whole string
-            return match.range.length == self.utf16.count
-        } else {
-            return false
-        }
-    }
-}
-
-public let ReachabilityStatusChangedNotification = "ReachabilityStatusChangedNotification"
-
-public enum ReachabilityType: CustomStringConvertible {
-    case WWAN
-    case WiFi
-
-    public var description: String {
-        switch self {
-        case .WWAN: return "WWAN"
-        case .WiFi: return "WiFi"
-        }
-    }
-}
-
-public enum ReachabilityStatus: CustomStringConvertible  {
-    case Offline
-    case Online(ReachabilityType)
-    case Unknown
-
-    public var description: String {
-        switch self {
-        case .Offline: return "Offline"
-        case .Online(let type): return "Online (\(type))"
-        case .Unknown: return "Unknown"
-        }
-    }
-}
-
-public class Reachability {
-
-    func connectionStatus() -> ReachabilityStatus {
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-
-        guard let defaultRouteReachability = (withUnsafePointer(to: &zeroAddress) {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { zeroSockAddress in
-                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+    /// This function will return MimeType for the Specified extension
+    /// - parameter FileExtension : File Extension whos MimeType You wanted
+    func GetMimeType(FileExtension : String) -> String?{
+        if let path = Bundle.main.path(forResource: "mime", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let jsonResult = try JSONDecoder().decode(Mimes.self, from: data)
+                
+                if let mime = jsonResult[FileExtension]{
+                    return mime
+                }else{
+                    return nil
+                }
+                
+            } catch {
+                print(error)
+                return nil
             }
-        }) else {
-           return .Unknown
+        }else{
+            print("path not found")
+            return nil
         }
-
-        var flags : SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
-            return .Unknown
-        }
-
-        return ReachabilityStatus(reachabilityFlags: flags)
-    }
-
-    func monitorReachabilityChanges() {
-        let host = "google.com"
-        var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
-        let reachability = SCNetworkReachabilityCreateWithName(nil, host)!
-
-        SCNetworkReachabilitySetCallback(reachability, { (_, flags, _) in
-            let status = ReachabilityStatus(reachabilityFlags: flags)
-
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: ReachabilityStatusChangedNotification), object: nil, userInfo: ["Status": status.description])}, &context)
-
-        SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue)
     }
     
-    func isConnected() -> Bool{
-        switch connectionStatus() {
-        case .Offline:
-            return false
-        case .Online(_):
-            return true
-        case .Unknown:
-            return false
-        }
-    }
-}
-
-extension ReachabilityStatus {
-
-    public init(reachabilityFlags flags: SCNetworkReachabilityFlags) {
-        let connectionRequired = flags.contains(.connectionRequired)
-        let isReachable = flags.contains(.reachable)
-        let isWWAN = flags.contains(.isWWAN)
-
-        if !connectionRequired && isReachable {
-            if isWWAN {
-                self = .Online(.WWAN)
-            } else {
-                self = .Online(.WiFi)
-            }
-        } else {
-            self =  .Offline
-        }
-    }
-}
-extension Data {
-    mutating func append(_ string: String) {
-        if let data = string.data(using: .utf8) {
-            append(data)
-        }
-    }
 }

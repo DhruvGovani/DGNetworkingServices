@@ -12,9 +12,7 @@ class ViewController: UIViewController {
     deinit {
         print("ViewController")
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    fileprivate func DownloadFile() {
         DGNetworkingServices.main.delegate = self
         
         DGNetworkingServices.main.downloadFile(Service: NetworkURL(withURL: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4"), fileName: "TestVideo2", Extension: "mp4", headers: nil) { (Result) in
@@ -30,12 +28,35 @@ class ViewController: UIViewController {
                         }
                     }
                 }
-               
+                
             case .failure(let Error):
                 print(Error.rawValue)
             }
         }
+    }
+    
+    fileprivate func GetData() {
+        
+        DGNetworkLogs.shared.logging.request = true
+        DGNetworkLogs.shared.logging.response = true
+        
+        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withURL: "https://jsonplaceholder.typicode.com/todos/1"), HttpMethod: .get, parameters: nil, headers: nil) { (Result) in
+            switch Result{
+            case .success((let res, _)):
+                print(res)
+                DGNetworkLogs.shared.PrintNetworkLogs(filterByUrl: nil, filterByStatusCode: nil)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        DownloadFile()
 
+        GetData()
         
     }
 }
