@@ -1,0 +1,702 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5A5D854625445B1F0039EB25 /* DGNetworkingServices.travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */; };
+		5A69778324FB9FF5005D3796 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69778224FB9FF5005D3796 /* SecondViewController.swift */; };
+		5A7CB0592544094300918E4D /* mime.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A7CB0582544094300918E4D /* mime.json */; };
+		5A7CB0E32544471D00918E4D /* DGNetworkingServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; };
+		5A7CB0EA2544471E00918E4D /* DGNetworkingServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */; };
+		5A7CB0EC2544471E00918E4D /* DGNetworkingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A7CB0EF2544471E00918E4D /* DGNetworkingServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; };
+		5A7CB0F02544471E00918E4D /* DGNetworkingServices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5A7CB0F9254447BD00918E4D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB06F25443B2500918E4D /* Constants.swift */; };
+		5A7CB0FA254447BD00918E4D /* DGNetworkLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB0622544378400918E4D /* DGNetworkLog.swift */; };
+		5A7CB0FB254447BD00918E4D /* DGNetworkingServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */; };
+		5A7CB0FC254447BD00918E4D /* DGGlobalSharedVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */; };
+		5A7CB0FD254447BD00918E4D /* RequiredExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB05D2544370100918E4D /* RequiredExtensions.swift */; };
+		5AF4018424F108F000849D0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF4018324F108F000849D0D /* AppDelegate.swift */; };
+		5AF4018624F108F000849D0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF4018524F108F000849D0D /* SceneDelegate.swift */; };
+		5AF4018824F108F000849D0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF4018724F108F000849D0D /* ViewController.swift */; };
+		5AF4018B24F108F000849D0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AF4018924F108F000849D0D /* Main.storyboard */; };
+		5AF4018D24F108F200849D0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF4018C24F108F200849D0D /* Assets.xcassets */; };
+		5AF4019024F108F200849D0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AF4018E24F108F200849D0D /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5A7CB0E42544471D00918E4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AF4017824F108F000849D0D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A7CB0D92544471D00918E4D;
+			remoteInfo = DGNetworkingServices;
+		};
+		5A7CB0E62544471D00918E4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AF4017824F108F000849D0D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AF4017F24F108F000849D0D;
+			remoteInfo = DGNetworkingServicesExample;
+		};
+		5A7CB0ED2544471E00918E4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AF4017824F108F000849D0D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A7CB0D92544471D00918E4D;
+			remoteInfo = DGNetworkingServices;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5A7CB0C2254445BA00918E4D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5A7CB0F02544471E00918E4D /* DGNetworkingServices.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = DGNetworkingServices.travis.yml; sourceTree = "<group>"; };
+		5A69778224FB9FF5005D3796 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		5A7CB0582544094300918E4D /* mime.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mime.json; sourceTree = "<group>"; };
+		5A7CB05D2544370100918E4D /* RequiredExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequiredExtensions.swift; sourceTree = "<group>"; };
+		5A7CB0622544378400918E4D /* DGNetworkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGNetworkLog.swift; sourceTree = "<group>"; };
+		5A7CB06F25443B2500918E4D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DGNetworkingServices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DGNetworkingServices.h; sourceTree = "<group>"; };
+		5A7CB0DD2544471D00918E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A7CB0E22544471D00918E4D /* DGNetworkingServicesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DGNetworkingServicesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGNetworkingServicesTests.swift; sourceTree = "<group>"; };
+		5A7CB0EB2544471E00918E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AF4018024F108F000849D0D /* DGNetworkingServicesExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DGNetworkingServicesExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AF4018324F108F000849D0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5AF4018524F108F000849D0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5AF4018724F108F000849D0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5AF4018A24F108F000849D0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5AF4018C24F108F200849D0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5AF4018F24F108F200849D0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5AF4019124F108F200849D0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DGNetworkingServices.swift; sourceTree = "<group>"; };
+		5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGGlobalSharedVariable.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5A7CB0D72544471D00918E4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A7CB0DF2544471D00918E4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7CB0E32544471D00918E4D /* DGNetworkingServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF4017D24F108F000849D0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7CB0EF2544471E00918E4D /* DGNetworkingServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5A7CB057254408F900918E4D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5A7CB0DB2544471D00918E4D /* DGNetworkingServices */ = {
+			isa = PBXGroup;
+			children = (
+				5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */,
+				5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */,
+				5A7CB0582544094300918E4D /* mime.json */,
+				5A7CB05D2544370100918E4D /* RequiredExtensions.swift */,
+				5A7CB0622544378400918E4D /* DGNetworkLog.swift */,
+				5A7CB06F25443B2500918E4D /* Constants.swift */,
+				5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */,
+				5A7CB0DD2544471D00918E4D /* Info.plist */,
+				5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */,
+			);
+			path = DGNetworkingServices;
+			sourceTree = "<group>";
+		};
+		5A7CB0E82544471E00918E4D /* DGNetworkingServicesTests */ = {
+			isa = PBXGroup;
+			children = (
+				5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */,
+				5A7CB0EB2544471E00918E4D /* Info.plist */,
+			);
+			path = DGNetworkingServicesTests;
+			sourceTree = "<group>";
+		};
+		5AF4017724F108F000849D0D = {
+			isa = PBXGroup;
+			children = (
+				5AF4018224F108F000849D0D /* DGNetworkingServices */,
+				5A7CB0DB2544471D00918E4D /* DGNetworkingServices */,
+				5A7CB0E82544471E00918E4D /* DGNetworkingServicesTests */,
+				5AF4018124F108F000849D0D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5AF4018124F108F000849D0D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5AF4018024F108F000849D0D /* DGNetworkingServicesExample.app */,
+				5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */,
+				5A7CB0E22544471D00918E4D /* DGNetworkingServicesTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5AF4018224F108F000849D0D /* DGNetworkingServices */ = {
+			isa = PBXGroup;
+			children = (
+				5A7CB057254408F900918E4D /* Resources */,
+				5AF4018324F108F000849D0D /* AppDelegate.swift */,
+				5AF4018524F108F000849D0D /* SceneDelegate.swift */,
+				5AF4018724F108F000849D0D /* ViewController.swift */,
+				5AF4018924F108F000849D0D /* Main.storyboard */,
+				5AF4018C24F108F200849D0D /* Assets.xcassets */,
+				5AF4018E24F108F200849D0D /* LaunchScreen.storyboard */,
+				5AF4019124F108F200849D0D /* Info.plist */,
+				5A69778224FB9FF5005D3796 /* SecondViewController.swift */,
+			);
+			path = DGNetworkingServices;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5A7CB0D52544471D00918E4D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7CB0EC2544471E00918E4D /* DGNetworkingServices.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5A7CB0D92544471D00918E4D /* DGNetworkingServices */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A7CB0F52544471E00918E4D /* Build configuration list for PBXNativeTarget "DGNetworkingServices" */;
+			buildPhases = (
+				5A7CB0D52544471D00918E4D /* Headers */,
+				5A7CB0D62544471D00918E4D /* Sources */,
+				5A7CB0D72544471D00918E4D /* Frameworks */,
+				5A7CB0D82544471D00918E4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DGNetworkingServices;
+			productName = DGNetworkingServices;
+			productReference = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5A7CB0E12544471D00918E4D /* DGNetworkingServicesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A7CB0F62544471E00918E4D /* Build configuration list for PBXNativeTarget "DGNetworkingServicesTests" */;
+			buildPhases = (
+				5A7CB0DE2544471D00918E4D /* Sources */,
+				5A7CB0DF2544471D00918E4D /* Frameworks */,
+				5A7CB0E02544471D00918E4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5A7CB0E52544471D00918E4D /* PBXTargetDependency */,
+				5A7CB0E72544471D00918E4D /* PBXTargetDependency */,
+			);
+			name = DGNetworkingServicesTests;
+			productName = DGNetworkingServicesTests;
+			productReference = 5A7CB0E22544471D00918E4D /* DGNetworkingServicesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5AF4017F24F108F000849D0D /* DGNetworkingServicesExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AF401AA24F108F200849D0D /* Build configuration list for PBXNativeTarget "DGNetworkingServicesExample" */;
+			buildPhases = (
+				5AF4017C24F108F000849D0D /* Sources */,
+				5AF4017D24F108F000849D0D /* Frameworks */,
+				5AF4017E24F108F000849D0D /* Resources */,
+				5A7CB0C2254445BA00918E4D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5A7CB0EE2544471E00918E4D /* PBXTargetDependency */,
+			);
+			name = DGNetworkingServicesExample;
+			productName = DGNetworkingServices;
+			productReference = 5AF4018024F108F000849D0D /* DGNetworkingServicesExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5AF4017824F108F000849D0D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = "Dhruv Govani";
+				TargetAttributes = {
+					5A7CB0D92544471D00918E4D = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					5A7CB0E12544471D00918E4D = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = 5AF4017F24F108F000849D0D;
+					};
+					5AF4017F24F108F000849D0D = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = 5AF4017B24F108F000849D0D /* Build configuration list for PBXProject "DGNetworkingServices" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5AF4017724F108F000849D0D;
+			productRefGroup = 5AF4018124F108F000849D0D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5AF4017F24F108F000849D0D /* DGNetworkingServicesExample */,
+				5A7CB0D92544471D00918E4D /* DGNetworkingServices */,
+				5A7CB0E12544471D00918E4D /* DGNetworkingServicesTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5A7CB0D82544471D00918E4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A5D854625445B1F0039EB25 /* DGNetworkingServices.travis.yml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A7CB0E02544471D00918E4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF4017E24F108F000849D0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AF4019024F108F200849D0D /* LaunchScreen.storyboard in Resources */,
+				5A7CB0592544094300918E4D /* mime.json in Resources */,
+				5AF4018D24F108F200849D0D /* Assets.xcassets in Resources */,
+				5AF4018B24F108F000849D0D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5A7CB0D62544471D00918E4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7CB0FC254447BD00918E4D /* DGGlobalSharedVariable.swift in Sources */,
+				5A7CB0FA254447BD00918E4D /* DGNetworkLog.swift in Sources */,
+				5A7CB0FB254447BD00918E4D /* DGNetworkingServices.swift in Sources */,
+				5A7CB0F9254447BD00918E4D /* Constants.swift in Sources */,
+				5A7CB0FD254447BD00918E4D /* RequiredExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A7CB0DE2544471D00918E4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7CB0EA2544471E00918E4D /* DGNetworkingServicesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AF4017C24F108F000849D0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A69778324FB9FF5005D3796 /* SecondViewController.swift in Sources */,
+				5AF4018824F108F000849D0D /* ViewController.swift in Sources */,
+				5AF4018424F108F000849D0D /* AppDelegate.swift in Sources */,
+				5AF4018624F108F000849D0D /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5A7CB0E52544471D00918E4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A7CB0D92544471D00918E4D /* DGNetworkingServices */;
+			targetProxy = 5A7CB0E42544471D00918E4D /* PBXContainerItemProxy */;
+		};
+		5A7CB0E72544471D00918E4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AF4017F24F108F000849D0D /* DGNetworkingServicesExample */;
+			targetProxy = 5A7CB0E62544471D00918E4D /* PBXContainerItemProxy */;
+		};
+		5A7CB0EE2544471E00918E4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A7CB0D92544471D00918E4D /* DGNetworkingServices */;
+			targetProxy = 5A7CB0ED2544471E00918E4D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5AF4018924F108F000849D0D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5AF4018A24F108F000849D0D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5AF4018E24F108F200849D0D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5AF4018F24F108F200849D0D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5A7CB0F12544471E00918E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DGNetworkingServices/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServices;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5A7CB0F22544471E00918E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DGNetworkingServices/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServices;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5A7CB0F32544471E00918E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				INFOPLIST_FILE = DGNetworkingServicesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServicesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DGNetworkingServicesExample.app/DGNetworkingServicesExample";
+			};
+			name = Debug;
+		};
+		5A7CB0F42544471E00918E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				INFOPLIST_FILE = DGNetworkingServicesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServicesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DGNetworkingServicesExample.app/DGNetworkingServicesExample";
+			};
+			name = Release;
+		};
+		5AF401A824F108F200849D0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5AF401A924F108F200849D0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5AF401AB24F108F200849D0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 13;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				INFOPLIST_FILE = DGNetworkingServices/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServicesExamples;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5AF401AC24F108F200849D0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 13;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				INFOPLIST_FILE = DGNetworkingServices/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServicesExamples;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5A7CB0F52544471E00918E4D /* Build configuration list for PBXNativeTarget "DGNetworkingServices" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A7CB0F12544471E00918E4D /* Debug */,
+				5A7CB0F22544471E00918E4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5A7CB0F62544471E00918E4D /* Build configuration list for PBXNativeTarget "DGNetworkingServicesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A7CB0F32544471E00918E4D /* Debug */,
+				5A7CB0F42544471E00918E4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AF4017B24F108F000849D0D /* Build configuration list for PBXProject "DGNetworkingServices" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AF401A824F108F200849D0D /* Debug */,
+				5AF401A924F108F200849D0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AF401AA24F108F200849D0D /* Build configuration list for PBXNativeTarget "DGNetworkingServicesExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AF401AB24F108F200849D0D /* Debug */,
+				5AF401AC24F108F200849D0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5AF4017824F108F000849D0D /* Project object */;
+}
