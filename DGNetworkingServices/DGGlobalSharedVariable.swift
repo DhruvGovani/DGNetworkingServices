@@ -8,5 +8,5 @@
 
 import Foundation
 
-public var BaseUrl = ""
-public var APIVersion = ""
+public var DGNetworkingServiceBaseUrl = ""
+public var DGNetworkingServiceAPIVersion = ""

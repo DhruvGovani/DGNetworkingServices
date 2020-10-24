@@ -157,10 +157,10 @@ public struct NetworkURL {
     /// - See ExapleViewController.swift for more info.
     /// - parameter Service : Service from Your BaseURL you would Like to call
     public init(withService Service : String) {
-        if BaseUrl == ""{
-            assertionFailure("Base URL is Blank. Set in DGGlobalSharedVariable.swift")
+        if DGNetworkingServiceBaseUrl == ""{
+            assertionFailure("Base URL is Blank. Please Set DGNetworkingServiceBaseUrl")
         }
-        self.Url = "\(BaseUrl)\(APIVersion)\(Service)"
+        self.Url = "\(DGNetworkingServiceBaseUrl)\(DGNetworkingServiceAPIVersion)\(Service)"
     }
     
     /// This function will create a API request from the static URL you provided

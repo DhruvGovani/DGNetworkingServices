@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import DGNetworkingServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        DGNetworkingServiceBaseUrl = "https://jsonplaceholder.typicode.com/"
+        
         // Override point for customization after application launch.
         return true
     }

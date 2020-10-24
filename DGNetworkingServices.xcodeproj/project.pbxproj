@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5A5D854625445B1F0039EB25 /* DGNetworkingServices.travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */; };
-		5A69778324FB9FF5005D3796 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69778224FB9FF5005D3796 /* SecondViewController.swift */; };
 		5A7CB0592544094300918E4D /* mime.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A7CB0582544094300918E4D /* mime.json */; };
 		5A7CB0E32544471D00918E4D /* DGNetworkingServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; };
 		5A7CB0EA2544471E00918E4D /* DGNetworkingServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */; };
@@ -68,7 +67,6 @@
 
 /* Begin PBXFileReference section */
 		5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = DGNetworkingServices.travis.yml; sourceTree = "<group>"; };
-		5A69778224FB9FF5005D3796 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		5A7CB0582544094300918E4D /* mime.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mime.json; sourceTree = "<group>"; };
 		5A7CB05D2544370100918E4D /* RequiredExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequiredExtensions.swift; sourceTree = "<group>"; };
 		5A7CB0622544378400918E4D /* DGNetworkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGNetworkLog.swift; sourceTree = "<group>"; };
@@ -118,13 +116,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5A7CB057254408F900918E4D /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		5A7CB0DB2544471D00918E4D /* DGNetworkingServices */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +141,19 @@
 			path = DGNetworkingServicesTests;
 			sourceTree = "<group>";
 		};
+		5AEBD1962544726D0000ABBD /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				5AF4018324F108F000849D0D /* AppDelegate.swift */,
+				5AF4018524F108F000849D0D /* SceneDelegate.swift */,
+				5AF4018724F108F000849D0D /* ViewController.swift */,
+				5AF4018924F108F000849D0D /* Main.storyboard */,
+				5AF4018C24F108F200849D0D /* Assets.xcassets */,
+				5AF4018E24F108F200849D0D /* LaunchScreen.storyboard */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
 		5AF4017724F108F000849D0D = {
 			isa = PBXGroup;
 			children = (
@@ -173,15 +177,8 @@
 		5AF4018224F108F000849D0D /* DGNetworkingServices */ = {
 			isa = PBXGroup;
 			children = (
-				5A7CB057254408F900918E4D /* Resources */,
-				5AF4018324F108F000849D0D /* AppDelegate.swift */,
-				5AF4018524F108F000849D0D /* SceneDelegate.swift */,
-				5AF4018724F108F000849D0D /* ViewController.swift */,
-				5AF4018924F108F000849D0D /* Main.storyboard */,
-				5AF4018C24F108F200849D0D /* Assets.xcassets */,
-				5AF4018E24F108F200849D0D /* LaunchScreen.storyboard */,
+				5AEBD1962544726D0000ABBD /* Example */,
 				5AF4019124F108F200849D0D /* Info.plist */,
-				5A69778224FB9FF5005D3796 /* SecondViewController.swift */,
 			);
 			path = DGNetworkingServices;
 			sourceTree = "<group>";
@@ -352,7 +349,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A69778324FB9FF5005D3796 /* SecondViewController.swift in Sources */,
 				5AF4018824F108F000849D0D /* ViewController.swift in Sources */,
 				5AF4018424F108F000849D0D /* AppDelegate.swift in Sources */,
 				5AF4018624F108F000849D0D /* SceneDelegate.swift in Sources */,
@@ -402,6 +398,7 @@
 		5A7CB0F12544471E00918E4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -412,7 +409,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DGNetworkingServices/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -421,6 +418,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServices;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -431,6 +429,7 @@
 		5A7CB0F22544471E00918E4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -441,7 +440,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DGNetworkingServices/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -450,6 +449,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.DGNetworkingServices;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
