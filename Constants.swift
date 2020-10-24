@@ -11,7 +11,7 @@ import UIKit
 
 /// This Delegate will be thrown for the every fraction in Double of every packet sent or received.
 /// - can be easily used to show the proggress of long task
-protocol DGNetworkingServicesDelegate : AnyObject {
+public protocol DGNetworkingServicesDelegate : AnyObject {
     func didProggressed(_ ProgressDone : Double)
 }
 
@@ -22,7 +22,7 @@ protocol DGNetworkingServicesDelegate : AnyObject {
 /// -  medium  = 0.5
 /// -  high    = 0.75
 /// -  highest = 1
-enum JPEGQuality: CGFloat {
+public enum JPEGQuality: CGFloat {
     case lowest  = 0
     case low     = 0.25
     case medium  = 0.5
@@ -31,7 +31,7 @@ enum JPEGQuality: CGFloat {
 }
 
 /// A Structure of Request Logging configurations
-struct Log {
+public struct Log {
     /// Set Request as True to Log Requests
     var request : Bool
     /// Set Response as True to Log Response
@@ -40,7 +40,7 @@ struct Log {
     /// Modify the Logging settings
     /// - parameter logRequest: Set as True to Log Requests
     /// - parameter logResponse: Set as True to Log Response
-    init(logRequest : Bool, logResponse : Bool) {
+    public init(logRequest : Bool, logResponse : Bool) {
         self.request = logRequest
         self.response = logResponse
     }
@@ -52,7 +52,7 @@ struct Log {
 /// # data :  data of media or a file being uploaded or passed to ther server
 /// # mimeType : mimeType indicates the type of your file, eg. image, video, pdf,
 /// - Leave Mime type as nil to autoFetch the mimtype from the fileType
-struct Media {
+public struct Media {
     let key: String
     let fileName: String
     let data: Data
@@ -62,7 +62,7 @@ struct Media {
     /// - parameter JpegImage : UIImage you wanted to upload
     /// - parameter key : parameter key where the image will be passed
     /// - parameter compression: compression of the image being passed
-    init?(withJPEGImage JpegImage: UIImage, forKey key: String, compression : JPEGQuality) {
+    public init?(withJPEGImage JpegImage: UIImage, forKey key: String, compression : JPEGQuality) {
         self.key = key
         self.mimeType = "image/jpg"
         self.fileName = "\(arc4random()).jpeg"
@@ -74,7 +74,7 @@ struct Media {
     /// Create a Media? for the PNG Image Uploading
     /// - parameter pngImage : UIImage you wanted to upload
     /// - parameter key : parameter key where the image will be passed
-    init?(withPNGImage pngImage: UIImage, forKey key: String) {
+    public init?(withPNGImage pngImage: UIImage, forKey key: String) {
         self.key = key
         self.mimeType = "image/png"
         self.fileName = "\(arc4random()).png"
@@ -88,7 +88,7 @@ struct Media {
     /// - parameter fileExtension : Type of the file being uploaded. Extension of the file Only.
     /// - parameter mimeType : mimeType of the file. Leave Nil for autoFetch from fileExtension
     /// - parameter key : parameter key where the file will be passed
-    init?(withFileFrom fileUrl : URL, of fileExtension: String, with mimeType : String?, for key: String) {
+    public init?(withFileFrom fileUrl : URL, of fileExtension: String, with mimeType : String?, for key: String) {
         self.key = key
         
         if let mime = mimeType{
@@ -122,7 +122,7 @@ struct Media {
     /// - parameter fileExtension : Type of the file being uploaded. Extension of the file Only.
     /// - parameter mimeType : mimeType of the data. Leave Nil for autoFetch from fileExtension
     /// - parameter key : parameter key where the file will be passed
-    init?(for key : String, for FileData : Data?, of mimeType : String?, with fileExtension : String){
+    public init?(for key : String, for FileData : Data?, of mimeType : String?, with fileExtension : String){
         self.key = key
         if let mime = mimeType{
             self.mimeType = mime
@@ -145,7 +145,7 @@ struct Media {
 /// - NetworkURL Structure helps the program to easily implement the correct url for the integrity and error handlings
 /// - NetworkURL makes Sure that if the doman changes all you have to do is change the BaseUrl from DGGlobalSharedVariable and KaBoom magic Happend
 /// - NetworkURL Makes sure that you can use the static apis which is out side of your server enviournement and baseURL.
-struct NetworkURL {
+public struct NetworkURL {
     let Url: String
     
     /// Init API URL with a ServiceName which will be appended to BaseUrl and APIVersion specified in DGGlobalSharedVariable.swift
@@ -156,7 +156,7 @@ struct NetworkURL {
     ///   - API Going to be called will be "www.google.com/api/v1/GetUserData"
     /// - See ExapleViewController.swift for more info.
     /// - parameter Service : Service from Your BaseURL you would Like to call
-    init(withService Service : String) {
+    public init(withService Service : String) {
         if BaseUrl == ""{
             assertionFailure("Base URL is Blank. Set in DGGlobalSharedVariable.swift")
         }
@@ -165,14 +165,14 @@ struct NetworkURL {
     
     /// This function will create a API request from the static URL you provided
     /// - parameter Url : Full URL of the API in string you wanted to call
-    init(withURL Url : String) {
+    public init(withURL Url : String) {
         self.Url = Url
     }
 }
 
 
 /// Error Structure for the HTTP Error or any kind of Input error to let the Dev know what he did wrong.
-enum NError : String, Error{
+public enum NError : String, Error{
     /// If you use a invalid Method to call the API
     /// # HTTP CODE : 405
     case invalidMethod = "The Method You are using for the service is invalid."
@@ -235,11 +235,11 @@ enum NError : String, Error{
 }
 
 /// HTTP Method which will be used to call the API
-enum httpMethod : String{
+public enum httpMethod : String{
     case get = "GET", post = "POST", delete = "DELETE", patch = "PATCH", put = "PUT", copy = "COPY", head = "HEAD", options = "OPTIONS", link = "LINK", unlink = "UNLINK", purge = "PURGE", lock = "LOCK", unlock = "UNLOCK", propfind = "PROPFIND", view = "VIEW"
 }
 
 /// Type of media used by the function to tell the system type of file being saved in camera roll.
-enum MediaType{
+public enum MediaType{
     case Photo, Video
 }

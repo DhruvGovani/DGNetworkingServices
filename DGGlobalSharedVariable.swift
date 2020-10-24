@@ -8,5 +8,5 @@
 
 import Foundation
 
-let BaseUrl = ""
-let APIVersion = ""
+public var BaseUrl = ""
+public var APIVersion = ""

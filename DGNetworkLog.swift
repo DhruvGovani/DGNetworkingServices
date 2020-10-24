@@ -15,9 +15,9 @@ import Foundation
 /// - Logs are not beign store in user defaults or anywhere in file in device to make it secure and only a Session only thing
 /// - Fully Configurable
 /// - Filter by Requests and Status Code
-class DGNetworkLogs {
+public class DGNetworkLogs {
     
-    struct DGLog{
+    public struct DGLog{
         var url : String?
         var time : Date?
         var statusCode : Int?
@@ -28,16 +28,16 @@ class DGNetworkLogs {
         var httpMethod : String
     }
     /// Shared Object to access the Functions of DGNetworkLogs
-    static let shared = DGNetworkLogs()
+    public static let shared = DGNetworkLogs()
     
     private var Logs = [DGLog]()
     
     /// This Variable Defines the Logging of request after it's Reconfiguration
-    var logging : Log = Log(logRequest: false, logResponse: false)
+    public var logging : Log = Log(logRequest: false, logResponse: false)
     
     /// This Function will be used in main codeBase to Log the Requests and Responses
     /// # WARNING : DO NOT MESS WITH THIS FUCNTION ONLY MADE TO BE USED IN THE MAIN CODEBASE
-    func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String) {
+    public func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String) {
         
         if logging.request == true{
             if logging.response == true{
@@ -52,7 +52,7 @@ class DGNetworkLogs {
     /// This Function Will print all the logged Requests and Responses
     /// - parameter filterByUrl : provide a url string to filter the result by the url
     /// - parameter filterByStatusCode : provide a HTTP Status code  to filter the result by the HTTP Status Code
-    func PrintNetworkLogs(filterByUrl : String?, filterByStatusCode : Int?){
+    public func PrintNetworkLogs(filterByUrl : String?, filterByStatusCode : Int?){
         
         if Logs.count <= 0{
             return

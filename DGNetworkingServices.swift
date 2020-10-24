@@ -50,7 +50,7 @@ import Photos
 /// 11. Pure Swift and URLSession APIs
 /// 12. No Third Party and Easy to Understand CodeBase
 /// ### Many More Advanced Feature to come....
-class DGNetworkingServices {
+public class DGNetworkingServices {
     
     deinit {
         print("DGNetworkingServices Deinit")
@@ -67,7 +67,7 @@ class DGNetworkingServices {
         var SessionConfig : URLSessionConfiguration?
     }
     
-    static let main = DGNetworkingServices()
+    public static let main = DGNetworkingServices()
     
     /// Set Delegate to self to get the Call Back for every fraction proggress made in the Call
     weak var delegate : DGNetworkingServicesDelegate? = nil
@@ -102,7 +102,7 @@ class DGNetworkingServices {
     ///       - returns Error in NSError
     /// -       Error.rawValue
     /// # SEE DOCUMENTATION FOR MORE INFO
-    func MakeApiCall(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
+    public func MakeApiCall(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
@@ -329,7 +329,7 @@ class DGNetworkingServices {
     ///   - Faliure : if Request is failed
     ///       - returns Error in NSError
     /// -       Error.rawValue
-    func MakeApiCall(Service : NetworkURL, Attachments : [Media?]?, HttpMethod : httpMethod, parameters : [String : Any]?,headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
+    public func MakeApiCall(Service : NetworkURL, Attachments : [Media?]?, HttpMethod : httpMethod, parameters : [String : Any]?,headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
@@ -565,7 +565,7 @@ class DGNetworkingServices {
     ///   - Faliure : if Download fails
     ///       - returns Error in NSError
     /// -       Error.rawValue
-    func downloadFile(Service : NetworkURL, fileName : String, Extension : String, headers : [String : String]?,completion : @escaping (Result<URL, NError>) -> Void){
+    public func downloadFile(Service : NetworkURL, fileName : String, Extension : String, headers : [String : String]?,completion : @escaping (Result<URL, NError>) -> Void){
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
@@ -701,7 +701,7 @@ class DGNetworkingServices {
         
     }
     
-    func SaveFileToPhotos(fileUrl : URL, Type : MediaType, completion : @escaping ((Bool,Error?) -> ())){
+    public func SaveFileToPhotos(fileUrl : URL, Type : MediaType, completion : @escaping ((Bool,Error?) -> ())){
         
         if PHPhotoLibrary.authorizationStatus() == .authorized{
             
@@ -747,7 +747,7 @@ class DGNetworkingServices {
     ///       - returns Error in NSError
     /// -       Error.rawValue
     /// # SEE DOCUMENTATION FOR MORE INFO
-    func UploadFile(Service : NetworkURL, HttpMethod : httpMethod, fileUrl : URL,parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
+    public func UploadFile(Service : NetworkURL, HttpMethod : httpMethod, fileUrl : URL,parameters : [String : Any]?, headers : [String : String]?,ResponseHandler: @escaping (Result<([String : Any],Data), NError>) -> Void){
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
@@ -952,7 +952,7 @@ class DGNetworkingServices {
     /// This Function will convert the Data to Dictionary
     /// - parameter data : Response data you wanted to convert in [String : Any]
     /// - function will return nil if conversion fails
-    func toJSON(data : Data) -> [String : Any]?{
+    public func toJSON(data : Data) -> [String : Any]?{
         
         do {
            let json = try JSONSerialization.jsonObject(with: data, options: [])
@@ -978,7 +978,7 @@ class DGNetworkingServices {
     
     /// This function will return MimeType for the Specified extension
     /// - parameter FileExtension : File Extension whos MimeType You wanted
-    func GetMimeType(FileExtension : String) -> String?{
+    public func GetMimeType(FileExtension : String) -> String?{
         if let path = Bundle.main.path(forResource: "mime", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
