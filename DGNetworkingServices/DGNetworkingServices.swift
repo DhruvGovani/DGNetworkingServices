@@ -70,7 +70,7 @@ public class DGNetworkingServices {
     public static let main = DGNetworkingServices()
     
     /// Set Delegate to self to get the Call Back for every fraction proggress made in the Call
-    weak var delegate : DGNetworkingServicesDelegate? = nil
+    public weak var delegate : DGNetworkingServicesDelegate? = nil
     
     private var observation: NSKeyValueObservation?
     

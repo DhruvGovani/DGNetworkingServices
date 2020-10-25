@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ExampleProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="zoj-3O-KUn">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAE-w9-iVu">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="91"/>
+                                        <state key="normal" title="GetUserDataWithStoredUrl"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="caO-2L-d8K"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4q-lG-8Ye">
+                                        <rect key="frame" x="0.0" y="91" width="414" height="91"/>
+                                        <state key="normal" title="GetUserDataWithFullUrl"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7UO-yW-tpQ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEU-Wu-mBf">
+                                        <rect key="frame" x="0.0" y="182" width="414" height="90.5"/>
+                                        <state key="normal" title="NotFoundError"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LTJ-CN-jJc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4FV-ec-pBt">
+                                        <rect key="frame" x="0.0" y="272.5" width="414" height="91"/>
+                                        <state key="normal" title="PostUser"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3cq-lV-JYJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGX-Qd-4fL">
+                                        <rect key="frame" x="0.0" y="363.5" width="414" height="91"/>
+                                        <state key="normal" title="PostUserWithLogging"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tgB-uR-glx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yoF-CG-hu3">
+                                        <rect key="frame" x="0.0" y="454.5" width="414" height="91"/>
+                                        <state key="normal" title="DeletUser"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vis-kk-izN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Av5-jp-rQh">
+                                        <rect key="frame" x="0.0" y="545.5" width="414" height="90.5"/>
+                                        <state key="normal" title="HeaderExample"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0qK-cr-TPK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXL-ds-ksF">
+                                        <rect key="frame" x="0.0" y="636" width="414" height="91"/>
+                                        <state key="normal" title="DownloadAnImageAndStoreInGallary"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xfU-gr-xXu"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZL-p6-ekl">
+                                        <rect key="frame" x="0.0" y="727" width="414" height="91"/>
+                                        <state key="normal" title="DownloadLongVideo"/>
+                                        <connections>
+                                            <action selector="ButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WyS-1h-s24"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zoj-3O-KUn" secondAttribute="bottom" id="U3I-is-M7N"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zoj-3O-KUn" secondAttribute="trailing" id="fNw-PT-aGJ"/>
+                            <constraint firstItem="zoj-3O-KUn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="frE-bU-bfC"/>
+                            <constraint firstItem="zoj-3O-KUn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uxT-JF-hy8"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-146" y="58"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

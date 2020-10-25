@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		5A5D854625445B1F0039EB25 /* DGNetworkingServices.travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */; };
+		5A72B43B25457A2A00365682 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72B43A25457A2A00365682 /* AppDelegate.swift */; };
+		5A72B43D25457A2A00365682 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72B43C25457A2A00365682 /* SceneDelegate.swift */; };
+		5A72B43F25457A2A00365682 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72B43E25457A2A00365682 /* ViewController.swift */; };
+		5A72B44225457A2A00365682 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A72B44025457A2A00365682 /* Main.storyboard */; };
+		5A72B44425457A2C00365682 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A72B44325457A2C00365682 /* Assets.xcassets */; };
+		5A72B44725457A2C00365682 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A72B44525457A2C00365682 /* LaunchScreen.storyboard */; };
+		5A72B45925457B2200365682 /* DGNetworkingServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; };
+		5A72B45A25457B2200365682 /* DGNetworkingServices.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5A7CB0E32544471D00918E4D /* DGNetworkingServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; };
 		5A7CB0EA2544471E00918E4D /* DGNetworkingServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */; };
 		5A7CB0EC2544471E00918E4D /* DGNetworkingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -19,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5A72B45B25457B2200365682 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AF4017824F108F000849D0D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A7CB0D92544471D00918E4D;
+			remoteInfo = DGNetworkingServices;
+		};
 		5A7CB0E42544471D00918E4D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5AF4017824F108F000849D0D /* Project object */;
@@ -28,8 +43,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5A72B45D25457B2200365682 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5A72B45A25457B2200365682 /* DGNetworkingServices.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = DGNetworkingServices.travis.yml; sourceTree = "<group>"; };
+		5A72B43825457A2A00365682 /* ExampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A72B43A25457A2A00365682 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5A72B43C25457A2A00365682 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5A72B43E25457A2A00365682 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5A72B44125457A2A00365682 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5A72B44325457A2C00365682 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5A72B44625457A2C00365682 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5A72B44825457A2C00365682 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A7CB0582544094300918E4D /* mime.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mime.json; sourceTree = "<group>"; };
 		5A7CB05D2544370100918E4D /* RequiredExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequiredExtensions.swift; sourceTree = "<group>"; };
 		5A7CB0622544378400918E4D /* DGNetworkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGNetworkLog.swift; sourceTree = "<group>"; };
@@ -46,6 +83,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5A72B43525457A2A00365682 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A72B45925457B2200365682 /* DGNetworkingServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A7CB0D72544471D00918E4D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,6 +109,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A72B43925457A2A00365682 /* ExampleProject */ = {
+			isa = PBXGroup;
+			children = (
+				5A72B43A25457A2A00365682 /* AppDelegate.swift */,
+				5A72B43C25457A2A00365682 /* SceneDelegate.swift */,
+				5A72B43E25457A2A00365682 /* ViewController.swift */,
+				5A72B44025457A2A00365682 /* Main.storyboard */,
+				5A72B44325457A2C00365682 /* Assets.xcassets */,
+				5A72B44525457A2C00365682 /* LaunchScreen.storyboard */,
+				5A72B44825457A2C00365682 /* Info.plist */,
+			);
+			path = ExampleProject;
+			sourceTree = "<group>";
+		};
+		5A72B45825457B2200365682 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5A7CB0DB2544471D00918E4D /* DGNetworkingServices */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,7 +161,9 @@
 				5AF4018224F108F000849D0D /* DGNetworkingServices */,
 				5A7CB0DB2544471D00918E4D /* DGNetworkingServices */,
 				5A7CB0E82544471E00918E4D /* DGNetworkingServicesTests */,
+				5A72B43925457A2A00365682 /* ExampleProject */,
 				5AF4018124F108F000849D0D /* Products */,
+				5A72B45825457B2200365682 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +172,7 @@
 			children = (
 				5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */,
 				5A7CB0E22544471D00918E4D /* DGNetworkingServicesTests.xctest */,
+				5A72B43825457A2A00365682 /* ExampleProject.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,6 +199,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5A72B43725457A2A00365682 /* ExampleProject */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A72B44925457A2C00365682 /* Build configuration list for PBXNativeTarget "ExampleProject" */;
+			buildPhases = (
+				5A72B43425457A2A00365682 /* Sources */,
+				5A72B43525457A2A00365682 /* Frameworks */,
+				5A72B43625457A2A00365682 /* Resources */,
+				5A72B45D25457B2200365682 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5A72B45C25457B2200365682 /* PBXTargetDependency */,
+			);
+			name = ExampleProject;
+			productName = ExampleProject;
+			productReference = 5A72B43825457A2A00365682 /* ExampleProject.app */;
+			productType = "com.apple.product-type.application";
+		};
 		5A7CB0D92544471D00918E4D /* DGNetworkingServices */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A7CB0F52544471E00918E4D /* Build configuration list for PBXNativeTarget "DGNetworkingServices" */;
@@ -176,6 +264,9 @@
 				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "Dhruv Govani";
 				TargetAttributes = {
+					5A72B43725457A2A00365682 = {
+						CreatedOnToolsVersion = 12.0;
+					};
 					5A7CB0D92544471D00918E4D = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -200,11 +291,22 @@
 			targets = (
 				5A7CB0D92544471D00918E4D /* DGNetworkingServices */,
 				5A7CB0E12544471D00918E4D /* DGNetworkingServicesTests */,
+				5A72B43725457A2A00365682 /* ExampleProject */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5A72B43625457A2A00365682 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A72B44725457A2C00365682 /* LaunchScreen.storyboard in Resources */,
+				5A72B44425457A2C00365682 /* Assets.xcassets in Resources */,
+				5A72B44225457A2A00365682 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A7CB0D82544471D00918E4D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,6 +325,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5A72B43425457A2A00365682 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A72B43F25457A2A00365682 /* ViewController.swift in Sources */,
+				5A72B43B25457A2A00365682 /* AppDelegate.swift in Sources */,
+				5A72B43D25457A2A00365682 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A7CB0D62544471D00918E4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -246,6 +358,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5A72B45C25457B2200365682 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A7CB0D92544471D00918E4D /* DGNetworkingServices */;
+			targetProxy = 5A72B45B25457B2200365682 /* PBXContainerItemProxy */;
+		};
 		5A7CB0E52544471D00918E4D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5A7CB0D92544471D00918E4D /* DGNetworkingServices */;
@@ -253,7 +370,68 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		5A72B44025457A2A00365682 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A72B44125457A2A00365682 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5A72B44525457A2C00365682 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A72B44625457A2C00365682 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		5A72B44A25457A2C00365682 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				INFOPLIST_FILE = ExampleProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.ExampleProject;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5A72B44B25457A2C00365682 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 298UYA66B8;
+				INFOPLIST_FILE = ExampleProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.DhruvGovani.ExampleProject;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		5A7CB0F12544471E00918E4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -477,6 +655,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5A72B44925457A2C00365682 /* Build configuration list for PBXNativeTarget "ExampleProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A72B44A25457A2C00365682 /* Debug */,
+				5A72B44B25457A2C00365682 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5A7CB0F52544471E00918E4D /* Build configuration list for PBXNativeTarget "DGNetworkingServices" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
