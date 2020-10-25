@@ -50,7 +50,7 @@ and then run this command in the Terminal
 
 > pod install
 
-(Optional) To update the Current Version 0.0.3
+(Optional) To update the Current Version
 
 > pod update DGNetworkingServices
 
