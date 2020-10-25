@@ -16,7 +16,7 @@
    #
 
     spec.name         = "DGNetworkingServices"
-   spec.version      = "0.0.3"
+   spec.version      = "0.0.4"
    spec.summary      = "DGNetworkingServices allows you to Make REST API Calls with low effort of code writing."
 
     # This description is used to generate tags and improve search results.
