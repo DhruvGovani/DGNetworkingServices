@@ -88,7 +88,7 @@ public struct Media {
     /// - parameter fileExtension : Type of the file being uploaded. Extension of the file Only.
     /// - parameter mimeType : mimeType of the file. Leave Nil for autoFetch from fileExtension
     /// - parameter key : parameter key where the file will be passed
-    public init?(withFileFrom fileUrl : URL, of fileExtension: String, with mimeType : String?, for key: String) {
+    public init?(withFileFrom fileUrl : URL, fileExtension: String, mimeType : String?, key: String) {
         self.key = key
         
         if let mime = mimeType{
@@ -122,7 +122,7 @@ public struct Media {
     /// - parameter fileExtension : Type of the file being uploaded. Extension of the file Only.
     /// - parameter mimeType : mimeType of the data. Leave Nil for autoFetch from fileExtension
     /// - parameter key : parameter key where the file will be passed
-    public init?(for key : String, for FileData : Data?, of mimeType : String?, with fileExtension : String){
+    public init?(key : String, FileData : Data?, mimeType : String?, fileExtension : String){
         self.key = key
         if let mime = mimeType{
             self.mimeType = mime
