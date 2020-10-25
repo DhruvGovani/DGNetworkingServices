@@ -4,7 +4,7 @@
 
 ![Cocoapods](https://img.shields.io/cocoapods/l/DGNetworkingServices) ![Cocoapods](https://img.shields.io/cocoapods/v/DGNetworkingServices) ![Cocoapods platforms](https://img.shields.io/cocoapods/p/DGNetworkingServices?color=green)
 
-DGNetworkingServices is a Lightweight and Powerful networking library for iOS build on the top of URLSession which will reduce your time and efforts of coding same lines again and again for the Network API Calls.
+DGNetworkingServices is a Lightweight and Powerful networking library written in Swift Language. and build on the top of URLSession which will helps you to reduce your time and efforts given in coding of same lines again and again for the Network API Calls for you app.
 
 ## Why DGNetworkingServices?
 
