@@ -232,6 +232,9 @@ public enum NError : String, Error{
     
     /// This error will occour if you are trying to access a file which does not exist
     case FileNotFound = "No Data Found on the directory you provided"
+    
+    /// This error will occour when decoding error comes
+    case JSONDeocdingError = "Data could'nt be read. because it is in the incorrect format"
 }
 
 /// HTTP Method which will be used to call the API

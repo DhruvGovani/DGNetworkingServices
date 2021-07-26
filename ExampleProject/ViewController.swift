@@ -46,6 +46,22 @@ struct Datum: Codable {
 
 class ViewController: UIViewController {
 
+    
+    func DirectDecodableGetUserDataWithStoredUrl(){
+        
+        DGNetworkingServices.main.MakeCodableApiCall(Service: NetworkURL(withService: "users?page=2"), HttpMethod: .get, parameters: nil, headers: nil, Codable: TestModel.self) { (Result) in
+            switch Result{
+            case .success(let Response):
+                print(Response)
+                
+            case .failure(let error):
+                print(error)
+                
+            }
+        }
+        
+    }
+    
     func GetUserDataWithStoredUrl(){
         
         // Initialised this two vars in the AppDelegate.swift
@@ -309,7 +325,7 @@ class ViewController: UIViewController {
             print("GetUserDataWithStoredUrl")
             print("--------------")
 
-            GetUserDataWithStoredUrl()
+            DirectDecodableGetUserDataWithStoredUrl()
         case 1:
             print("--------------")
             print("GetUserDataWithStoredUrl")

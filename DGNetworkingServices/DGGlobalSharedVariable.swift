@@ -10,3 +10,4 @@ import Foundation
 
 public var DGNetworkingServiceBaseUrl = ""
 public var DGNetworkingServiceAPIVersion = ""
+public var DGDefaultHeaders : [String : String]? = nil

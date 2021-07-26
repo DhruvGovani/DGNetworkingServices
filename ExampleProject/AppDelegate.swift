@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DGNetworkingServiceBaseUrl = "https://reqres.in"
         DGNetworkingServiceAPIVersion = "/api/"
-        
+        DGDefaultHeaders = ["Timezone" : "IST"]
+        DGNetworkLogs.shared.logging = .init(logRequest: true, logResponse: true)
         //Setup BaseUrl Here
         
         
