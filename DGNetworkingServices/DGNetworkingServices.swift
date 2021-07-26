@@ -1178,9 +1178,17 @@ public class DGNetworkingServices {
                         let dataOfString = "Your input is accepted by the server you were requesting".data(using: .utf16)
                         
                         if let data = dataOfString{
-                            DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue)
+                            
+                            if let decodedResponse = try? JSONDecoder().decode(Codable.self, from: data){
+                                
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                ResponseHandler(.success((decodedResponse)))
+                                
+                            }else{
+                                
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
                                 ResponseHandler(.failure(.DefError))
+
                             }
                             
                         }else{
