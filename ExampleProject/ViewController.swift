@@ -47,9 +47,24 @@ struct Datum: Codable {
 class ViewController: UIViewController {
 
     
+    func triggerServerError(){
+        
+        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withURL: "https://triggererror.free.beeceptor.com/my/api/triggerServerError"), HttpMethod: .get, parameters: nil, headers: nil) { (Result) in
+            
+            switch Result{
+            case .success((_, _)):
+                print("success")
+            case .failure(let error):
+                print(error.rawValue)
+            }
+            
+        }
+        
+    }
+    
     func DirectDecodableGetUserDataWithStoredUrl(){
         
-        DGNetworkingServices.main.MakeCodableApiCall(Service: NetworkURL(withService: "users?page=2"), HttpMethod: .get, parameters: nil, headers: nil, Codable: TestModel.self) { (Result) in
+        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withService: "users?page=2"), HttpMethod: .get, parameters: nil, headers: nil, Codable: TestModel.self) { (Result) in
             switch Result{
             case .success(let Response):
                 print(Response)
@@ -184,7 +199,7 @@ class ViewController: UIViewController {
                 print(Error.rawValue)
             }
             // Print the logged Calls
-            DGNetworkLogs.shared.PrintNetworkLogs(filterByUrl: nil, filterByStatusCode: nil)
+//            DGNetworkLogs.shared.PrintNetworkLogs(filterByUrl: nil, filterByStatusCode: nil)
             
         }
     }
@@ -214,7 +229,7 @@ class ViewController: UIViewController {
                 
                 print(ResHeaders["my-sample-header"] as! String)
                 
-                print(DGNetworkLogs.shared.PrintNetworkLogs(filterByUrl: nil, filterByStatusCode: 200))
+//                print(DGNetworkLogs.shared.PrintNetworkLogs(filterByUrl: nil, filterByStatusCode: 200))
                 
             case .failure(let error):
                 print(error.rawValue)
@@ -313,6 +328,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        triggerServerError()
                
         // Do any additional setup after loading the view.
     }

@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DGNetworkingServiceAPIVersion = "/api/"
         DGDefaultHeaders = ["Timezone" : "IST"]
         DGNetworkLogs.shared.logging = .init(logRequest: true, logResponse: true)
+        DGNetworkingServices.main.AdditionalRequestSettings.PrintResponseOnFail = true
         //Setup BaseUrl Here
         
         
