@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
 spec.name         = "DGNetworkingServices"
-spec.version      = "1.0.1"
+spec.version      = "1.0.2"
 spec.summary      = "DGNetworkingServices allows you to Make REST API Calls with low effort of code writing."
 spec.authors      = { 'Dhruv Govani' => 'dhruvgovani@icloud.com' }
 spec.description  = <<-DESC
