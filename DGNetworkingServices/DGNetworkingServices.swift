@@ -149,7 +149,7 @@ public class DGNetworkingServices {
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.NetworkError))
             }
             return
@@ -168,7 +168,7 @@ public class DGNetworkingServices {
             // checking if url string can convert to URLType or Not
             guard let URL = URL(string: url) else {
                 DispatchQueue.main.async {
-                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                     ResponseHandler(.failure(.BadUrl))
                 }
                 return
@@ -201,7 +201,7 @@ public class DGNetworkingServices {
                 // convert json parameters to httpbody
                 guard let httpBody = try? JSONSerialization.data(withJSONObject: JSONParameters, options: []) else {
                     DispatchQueue.main.async {
-                        DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue)
+                        DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                         ResponseHandler(.failure(.BadParams))
                     }
                     return
@@ -246,7 +246,7 @@ public class DGNetworkingServices {
                         
                         guard let data = Data else {
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.InvalidResponse))
                             }
                             return
@@ -257,19 +257,19 @@ public class DGNetworkingServices {
                             
                             if let JSONData = json as? [String: Any]{
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.success((JSONData,data)))
                                 }
                                 
                             }else{
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.failure(.InvalidResponse))
                                 }
                             }
                         } catch  {
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.InvalidResponse))
                             }
                             
@@ -286,47 +286,47 @@ public class DGNetworkingServices {
                         
                         if let data = dataOfString{
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.success((output,data)))
                             }
                             
                         }else{
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.ConversionError))
                             }
                         }
                         
                     case 400:
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.BadRequest))
                         }
                     case 401, 403:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.Forbidden))
                         }
                     case 404:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.PageNotFound))
                         }
                     case 405:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.invalidMethod))
                         }
                     case 500:
                         self.printResponse(HTTPResponse, Data)
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.ServerError))
                         }
                     default:
                         self.printResponse(HTTPResponse, Data)
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.DefError))
                         }
                     }
@@ -336,12 +336,12 @@ public class DGNetworkingServices {
                     if let httpError = HTTPError{
                         print(httpError.localizedDescription)
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadResponse.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.BadResponse))
                         }
                     }else{
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.InvalidResponse))
                         }
                     }
@@ -359,7 +359,7 @@ public class DGNetworkingServices {
             
         }else{
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.BadUrl))
             }
             
@@ -403,7 +403,7 @@ public class DGNetworkingServices {
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.NetworkError))
             }
             return
@@ -422,7 +422,7 @@ public class DGNetworkingServices {
             // checking if url string can convert to URLType or Not
             guard let URL = URL(string: url) else {
                 DispatchQueue.main.async {
-                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                     ResponseHandler(.failure(.BadUrl))
                 }
                 return
@@ -515,7 +515,7 @@ public class DGNetworkingServices {
                         
                         guard let data = Data else {
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                                 ResponseHandler(.failure(.InvalidResponse))
                             }
                             return
@@ -528,7 +528,7 @@ public class DGNetworkingServices {
                                 DispatchQueue.main.async {
                                     
                                     DispatchQueue.main.async {
-                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue)
+                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                                         ResponseHandler(.success((JSONData,data)))
                                     }
                                     
@@ -536,13 +536,13 @@ public class DGNetworkingServices {
                                 
                             }else{
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                                     ResponseHandler(.failure(.InvalidResponse))
                                 }
                             }
                         } catch  {
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                                 ResponseHandler(.failure(.InvalidResponse))
                             }
                             
@@ -560,48 +560,48 @@ public class DGNetworkingServices {
                         if let data = dataOfString{
                             DispatchQueue.main.async {
                                 
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                                 ResponseHandler(.success((output,data)))
                                 
                             }
                             
                         }else{
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                                 ResponseHandler(.failure(.ConversionError))
                             }
                         }
                         
                     case 400:
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.BadRequest))
                         }
                     case 401, 403:
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.Forbidden))
                         }
                     case 404:
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.PageNotFound))
                         }
                     case 405:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.invalidMethod))
                         }
                     case 500:
                         self.printResponse(HTTPResponse, Data)
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.ServerError))
                         }
                     default:
                         self.printResponse(HTTPResponse, Data)
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.DefError))
                         }
                     }
@@ -611,12 +611,12 @@ public class DGNetworkingServices {
                     if let httpError = HTTPError{
                         print(httpError.localizedDescription)
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.BadRequest))
                         }
                     }else{
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.InvalidResponse))
                         }
                     }
@@ -632,7 +632,7 @@ public class DGNetworkingServices {
             
         }else{
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.BadUrl))
             }
             
@@ -665,7 +665,7 @@ public class DGNetworkingServices {
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: nil, headers: nil, response: nil, message: NError.NetworkError.rawValue, Method: "POST")
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: nil, headers: nil, response: nil, message: NError.NetworkError.rawValue, Method: "POST", urlResponse: nil, responseData: nil)
                 completion(.failure(.NetworkError))
             }
             return
@@ -847,7 +847,7 @@ public class DGNetworkingServices {
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.NetworkError))
             }
             return
@@ -863,7 +863,7 @@ public class DGNetworkingServices {
             
             guard let URL = URL(string: url) else {
                 DispatchQueue.main.async {
-                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                     ResponseHandler(.failure(.BadUrl))
                 }
                 return
@@ -900,7 +900,7 @@ public class DGNetworkingServices {
                     // convert json parameters to httpbody
                     guard let httpBody = try? JSONSerialization.data(withJSONObject: JSONParameters, options: []) else {
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                             ResponseHandler(.failure(.BadParams))
                         }
                         return
@@ -923,7 +923,7 @@ public class DGNetworkingServices {
                             
                             guard let data = Data else {
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.failure(.InvalidResponse))
                                 }
                                 return
@@ -934,19 +934,19 @@ public class DGNetworkingServices {
                                 
                                 if let JSONData = json as? [String: Any]{
                                     DispatchQueue.main.async {
-                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue)
+                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                         ResponseHandler(.success((JSONData,data)))
                                     }
                                     
                                 }else{
                                     DispatchQueue.main.async {
-                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                        DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                         ResponseHandler(.failure(.InvalidResponse))
                                     }
                                 }
                             } catch  {
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.failure(.InvalidResponse))
                                 }
                                 
@@ -963,45 +963,45 @@ public class DGNetworkingServices {
                             
                             if let data = dataOfString{
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: nil, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.success((output,data)))
                                 }
                                 
                             }else{
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.failure(.ConversionError))
                                 }
                             }
                             
                         case 400:
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.BadRequest))
                             }
                         case 401, 403:
                             DispatchQueue.main.async {
-                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue)
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.Forbidden))
                             }
                         case 404:
                             DispatchQueue.main.async {
-                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.PageNotFound))
                             }
                         case 405:
                             DispatchQueue.main.async {
-                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.invalidMethod))
                             }
                         case 500:
                             DispatchQueue.main.async {
-                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.ServerError))
                             }
                         default:
                             DispatchQueue.main.async {
-                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue)
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.DefError))
                             }
                         }
@@ -1010,12 +1010,12 @@ public class DGNetworkingServices {
                         if let httpError = HTTPError{
                             print(httpError.localizedDescription)
                             DispatchQueue.main.async {
-                                 DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                                 DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.BadRequest))
                             }
                         }else{
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.InvalidResponse))
                             }
                         }
@@ -1039,7 +1039,7 @@ public class DGNetworkingServices {
             
         }else{
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.BadUrl))
             }
         }
@@ -1071,7 +1071,7 @@ public class DGNetworkingServices {
         
         guard Reachability().isConnected() else {
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.NetworkError))
             }
             return
@@ -1090,7 +1090,7 @@ public class DGNetworkingServices {
             // checking if url string can convert to URLType or Not
             guard let URL = URL(string: url) else {
                 DispatchQueue.main.async {
-                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                     ResponseHandler(.failure(.BadUrl))
                 }
                 return
@@ -1123,7 +1123,7 @@ public class DGNetworkingServices {
                 // convert json parameters to httpbody
                 guard let httpBody = try? JSONSerialization.data(withJSONObject: JSONParameters, options: []) else {
                     DispatchQueue.main.async {
-                        DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue)
+                        DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                         ResponseHandler(.failure(.BadParams))
                     }
                     return
@@ -1168,7 +1168,7 @@ public class DGNetworkingServices {
                         
                         guard let data = Data else {
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.InvalidResponse))
                             }
                             return
@@ -1179,7 +1179,7 @@ public class DGNetworkingServices {
                             
                             if let JSONData = json as? [String: Any]{
                                 
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: JSONData, message: nil, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 
                                 let decodedResponse = try JSONDecoder().decode(Codable.self, from: data)
                                 
@@ -1191,7 +1191,7 @@ public class DGNetworkingServices {
                                 
                                 self.printResponse(HTTPResponse, Data)
                                 DispatchQueue.main.async {
-                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                                    DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                     ResponseHandler(.failure(.InvalidResponse))
                                 }
                             }
@@ -1200,7 +1200,7 @@ public class DGNetworkingServices {
                             self.printResponse(HTTPResponse, Data)
                             print(error)
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DecodingError.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DecodingError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.DecodingError))
                             }
                             
@@ -1219,53 +1219,53 @@ public class DGNetworkingServices {
                             
                             if let decodedResponse = try? JSONDecoder().decode(Codable.self, from: data){
                                 
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: output, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.success((decodedResponse)))
                                 
                             }else{
                                 
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.DefError))
 
                             }
                             
                         }else{
                             DispatchQueue.main.async {
-                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue)
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ConversionError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                                 ResponseHandler(.failure(.ConversionError))
                             }
                         }
                         
                     case 400:
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.BadRequest))
                         }
                     case 401, 403:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.Forbidden.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.Forbidden))
                         }
                     case 404:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.PageNotFound.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.PageNotFound))
                         }
                     case 405:
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.invalidMethod.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.invalidMethod))
                         }
                     case 500:
                         self.printResponse(HTTPResponse, Data)
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.ServerError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.ServerError))
                         }
                     default:
                         self.printResponse(HTTPResponse, Data)
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: httpResponse?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.DefError.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.DefError))
                         }
                     }
@@ -1275,12 +1275,12 @@ public class DGNetworkingServices {
                     if let httpError = HTTPError{
                         print(httpError.localizedDescription)
                         DispatchQueue.main.async {
-                             DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue)
+                             DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.BadRequest.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.BadRequest))
                         }
                     }else{
                         DispatchQueue.main.async {
-                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue)
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: Data)
                             ResponseHandler(.failure(.InvalidResponse))
                         }
                     }
@@ -1298,7 +1298,7 @@ public class DGNetworkingServices {
             
         }else{
             DispatchQueue.main.async {
-                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue)
+                DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
                 ResponseHandler(.failure(.BadUrl))
             }
             

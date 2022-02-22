@@ -22,10 +22,12 @@ public class DGNetworkLogs {
         var time : Date?
         var statusCode : Int?
         var parameters : [String : Any]?
-        var headers : [String : String]?
+        var headers : [AnyHashable : Any]?
         var response : [String : Any]?
         var message : String?
         var httpMethod : String
+        var fullResponse : URLResponse?
+        var fullData : String
     }
     /// Shared Object to access the Functions of DGNetworkLogs
     public static let shared = DGNetworkLogs()
@@ -37,13 +39,26 @@ public class DGNetworkLogs {
     
     /// This Function will be used in main codeBase to Log the Requests and Responses
     /// # WARNING : DO NOT MESS WITH THIS FUCNTION ONLY MADE TO BE USED IN THE MAIN CODEBASE
-    public func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String) {
+    public func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String, urlResponse : URLResponse?, responseData : Data?) {
         
         if logging.request == true{
+            
             if logging.response == true{
-                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: response, message: message, httpMethod: Method))
+                
+                var responseDataString : String{
+                    
+                    if let responseData = responseData{
+                        return String(data: responseData, encoding: .utf8) ?? "nil"
+                    }else{
+                        return "nil"
+                    }
+                    
+                }
+                
+                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: response, message: message, httpMethod: Method, fullResponse: urlResponse, fullData:responseDataString))
+                
             }else{
-                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: nil, message: message, httpMethod: Method))
+                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: nil, message: message, httpMethod: Method, fullResponse: nil, fullData: "nil"))
             }
         }
         
@@ -52,7 +67,7 @@ public class DGNetworkLogs {
     /// This Function Will print all the logged Requests and Responses
     /// - parameter filterByUrl : provide a url string to filter the result by the url
     /// - parameter filterByStatusCode : provide a HTTP Status code  to filter the result by the HTTP Status Code
-    public func PrintNetworkLogs(filterByUrl : String?, filterByStatusCode : Int?){
+    public func PrintNetworkLogs(filterByUrl : String? = nil, filterByStatusCode : Int? = nil, printFullResponse : Bool){
         
         if Logs.count <= 0{
             return
@@ -60,32 +75,29 @@ public class DGNetworkLogs {
         
         var logtoReturn = [DGLog]()
         
-        if filterByUrl != nil && filterByStatusCode != nil{
+        if filterByUrl != nil || filterByStatusCode != nil{
             
             if let furl = filterByUrl{
-                for L in 0...Logs.count - 1{
-                    if Logs[L].url == furl{
-                        logtoReturn.append(Logs[L])
-                    }
+                logtoReturn = Logs.filter { (log) -> Bool in
+                    return log.url == furl
                 }
             }
             
             if let fStatsus = filterByStatusCode{
-                for L in 0...Logs.count - 1{
-                    if Logs[L].statusCode == fStatsus{
-                        logtoReturn.append(Logs[L])
-                    }
+                logtoReturn = Logs.filter { (log) -> Bool in
+                    return log.statusCode == fStatsus
                 }
             }
             
         }else{
-            for L in 0...Logs.count - 1{
-                
-                logtoReturn.append(Logs[L])
-                
-            }
+            
+            logtoReturn = Logs
+            
         }
+        
+        print("--------DGNetworkingServices----------")
         print("--------NETWORK LOG(S)----------")
+        print("--------BEGIN-------")
         for L in 0...logtoReturn.count - 1{
             
             let Log = logtoReturn[L]
@@ -108,10 +120,16 @@ public class DGNetworkLogs {
             if Log.time != nil{
                 print("Log Time : \(Log.time!)")
             }
+           
+            print("Full Response Data Body: \(Log.fullData)")
+            
+            if Log.fullResponse != nil && printFullResponse == true{
+                print("Full Response : \(Log.fullResponse!)")
+            }
+            
         }
-
+        print("--------END-------")
         print("\n--------NETWORK LOG(S)----------")
-        print("\nto Stop this from prinitng Set DGNetworkLogs.shared.logging.request / response to false")
 
     }
 }
