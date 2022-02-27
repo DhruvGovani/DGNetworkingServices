@@ -52,6 +52,8 @@ import Photos
 /// ### Many More Advanced Feature to come....
 public class DGNetworkingServices {
     
+    private init(){}
+    
     deinit {
         print("DGNetworkingServices Deinit")
         if observation != nil{

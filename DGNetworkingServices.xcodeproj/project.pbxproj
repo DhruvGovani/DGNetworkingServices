@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A5A483027C55ED000D70331 /* DGAPIDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A482F27C55ED000D70331 /* DGAPIDispatcher.swift */; };
 		5A5D854625445B1F0039EB25 /* DGNetworkingServices.travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */; };
 		5A72B43B25457A2A00365682 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72B43A25457A2A00365682 /* AppDelegate.swift */; };
 		5A72B43D25457A2A00365682 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72B43C25457A2A00365682 /* SceneDelegate.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5A5A482F27C55ED000D70331 /* DGAPIDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGAPIDispatcher.swift; sourceTree = "<group>"; };
 		5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = DGNetworkingServices.travis.yml; sourceTree = "<group>"; };
 		5A72B43825457A2A00365682 /* ExampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A72B43A25457A2A00365682 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */,
 				5A7CB0DD2544471D00918E4D /* Info.plist */,
 				5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */,
+				5A5A482F27C55ED000D70331 /* DGAPIDispatcher.swift */,
 			);
 			path = DGNetworkingServices;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A5A483027C55ED000D70331 /* DGAPIDispatcher.swift in Sources */,
 				5A7CB0FC254447BD00918E4D /* DGGlobalSharedVariable.swift in Sources */,
 				5A7CB0FA254447BD00918E4D /* DGNetworkLog.swift in Sources */,
 				5A7CB0FB254447BD00918E4D /* DGNetworkingServices.swift in Sources */,

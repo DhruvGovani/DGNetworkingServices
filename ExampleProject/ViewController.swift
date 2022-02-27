@@ -44,7 +44,16 @@ struct Datum: Codable {
     }
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, DGAPIDispatcherDelegate {
+    
+    func requestDidCompleted(_ dispatcher: DGAPIDispatcher, completedApi: DispatchResult) {
+        print(completedApi)
+    }
+    
+    func dispatchedAPIsDidComplete(_ dispatcher: DGAPIDispatcher, completedApis: [DispatchResult]) {
+        print(completedApis)
+    }
+    
 
     
     func triggerServerError(){
@@ -329,11 +338,48 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        triggerServerError()
+        _ = DGAPIDispatcher.main.dispatchNewApi(DispatchRequest(Service: NetworkURL(withURL: "https://reqres.in/api/users?page=1"), HttpMethod: .get, parameters: nil, headers: nil))
                
+        _ = DGAPIDispatcher.main.dispatchNewApi(DispatchRequest(Service: NetworkURL(withURL: "https://reqres.in/api/users?delay=1"), HttpMethod: .get, parameters: nil, headers: nil))
+        
+        _ = DGAPIDispatcher.main.dispatchNewApi(DispatchRequest(Service: NetworkURL(withURL: "https://reqres.in/api/users?page=3"), HttpMethod: .get, parameters: nil, headers: nil))
+        
+        _ = DGAPIDispatcher.main.dispatchNewApi(DispatchRequest(Service: NetworkURL(withURL: "https://reqres.in/api/users?page=4"), HttpMethod: .get, parameters: nil, headers: nil))
+        
+        DGAPIDispatcher.main.delegate = self
+//        let pendingApis = DGAPIDispatcher.main.getAllPendingRequests()
+        
+        DGAPIDispatcher.main.runDispatchedAPIs { (completions) in
+            
+            print("All APIs are called")
+            for completion in completions{
+                switch completion.result{
+                case .success((_, _)):
+//                    print(response)
+                    print(DGAPIDispatcher.main.getAllPendingRequests())
+                case .failure(let error):
+                    print(error.rawValue)
+                }
+                
+            }
+            
+        }
+        
         // Do any additional setup after loading the view.
     }
 
+    func requestDidCompleted(_ dispatcher: DGAPIDispatcher, completedApi: DispatchRequest, result: Result<([String : Any], Data), NError>) {
+        
+        print("Single API Completion Call Back", completedApi.id)
+        switch result {
+        case .success((let response, _)):
+            print(response)
+        case .failure(let error):
+            print(error.rawValue)
+        }
+        
+    }
+    
     @IBAction func ButtonAction(_ sender: UIButton) {
         
         switch sender.tag {
