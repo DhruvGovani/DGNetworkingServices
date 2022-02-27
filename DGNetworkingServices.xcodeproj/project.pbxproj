@@ -20,11 +20,15 @@
 		5A7CB0E32544471D00918E4D /* DGNetworkingServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */; };
 		5A7CB0EA2544471E00918E4D /* DGNetworkingServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */; };
 		5A7CB0EC2544471E00918E4D /* DGNetworkingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5A7CB0F9254447BD00918E4D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB06F25443B2500918E4D /* Constants.swift */; };
+		5A7CB0F9254447BD00918E4D /* DGNetworkLog+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB06F25443B2500918E4D /* DGNetworkLog+Constants.swift */; };
 		5A7CB0FA254447BD00918E4D /* DGNetworkLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB0622544378400918E4D /* DGNetworkLog.swift */; };
 		5A7CB0FB254447BD00918E4D /* DGNetworkingServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */; };
 		5A7CB0FC254447BD00918E4D /* DGGlobalSharedVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */; };
-		5A7CB0FD254447BD00918E4D /* RequiredExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB05D2544370100918E4D /* RequiredExtensions.swift */; };
+		5A7CB0FD254447BD00918E4D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7CB05D2544370100918E4D /* Reachability.swift */; };
+		5AC716D327CB4DB000668AC2 /* DGNetworkingServices+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC716D227CB4DB000668AC2 /* DGNetworkingServices+Constants.swift */; };
+		5AC716D527CB4DF100668AC2 /* DGNetworkingServices+Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC716D427CB4DF100668AC2 /* DGNetworkingServices+Media.swift */; };
+		5AC716D727CB4E5D00668AC2 /* DGNetworkingServices+URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC716D627CB4E5D00668AC2 /* DGNetworkingServices+URLBuilder.swift */; };
+		5AC716D927CB4E7900668AC2 /* DGNetworkingServices+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC716D827CB4E7900668AC2 /* DGNetworkingServices+Delegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,15 +74,19 @@
 		5A72B44625457A2C00365682 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5A72B44825457A2C00365682 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A7CB0582544094300918E4D /* mime.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mime.json; sourceTree = "<group>"; };
-		5A7CB05D2544370100918E4D /* RequiredExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequiredExtensions.swift; sourceTree = "<group>"; };
+		5A7CB05D2544370100918E4D /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5A7CB0622544378400918E4D /* DGNetworkLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGNetworkLog.swift; sourceTree = "<group>"; };
-		5A7CB06F25443B2500918E4D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5A7CB06F25443B2500918E4D /* DGNetworkLog+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DGNetworkLog+Constants.swift"; sourceTree = "<group>"; };
 		5A7CB0DA2544471D00918E4D /* DGNetworkingServices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DGNetworkingServices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DGNetworkingServices.h; sourceTree = "<group>"; };
 		5A7CB0DD2544471D00918E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A7CB0E22544471D00918E4D /* DGNetworkingServicesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DGNetworkingServicesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7CB0E92544471E00918E4D /* DGNetworkingServicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGNetworkingServicesTests.swift; sourceTree = "<group>"; };
 		5A7CB0EB2544471E00918E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AC716D227CB4DB000668AC2 /* DGNetworkingServices+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DGNetworkingServices+Constants.swift"; sourceTree = "<group>"; };
+		5AC716D427CB4DF100668AC2 /* DGNetworkingServices+Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DGNetworkingServices+Media.swift"; sourceTree = "<group>"; };
+		5AC716D627CB4E5D00668AC2 /* DGNetworkingServices+URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DGNetworkingServices+URLBuilder.swift"; sourceTree = "<group>"; };
+		5AC716D827CB4E7900668AC2 /* DGNetworkingServices+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DGNetworkingServices+Delegate.swift"; sourceTree = "<group>"; };
 		5AF4019124F108F200849D0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DGNetworkingServices.swift; sourceTree = "<group>"; };
 		5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGGlobalSharedVariable.swift; sourceTree = "<group>"; };
@@ -135,16 +143,13 @@
 		5A7CB0DB2544471D00918E4D /* DGNetworkingServices */ = {
 			isa = PBXGroup;
 			children = (
-				5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */,
-				5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */,
-				5A7CB0582544094300918E4D /* mime.json */,
-				5A7CB05D2544370100918E4D /* RequiredExtensions.swift */,
-				5A7CB0622544378400918E4D /* DGNetworkLog.swift */,
-				5A7CB06F25443B2500918E4D /* Constants.swift */,
+				5AC716DC27CB4F6000668AC2 /* Utilities */,
+				5AC716DB27CB4F2500668AC2 /* Dispatcher */,
+				5AC716DA27CB4EDC00668AC2 /* LogService */,
+				5AC716D127CB4D8400668AC2 /* NetworkingServices */,
 				5A7CB0DC2544471D00918E4D /* DGNetworkingServices.h */,
 				5A7CB0DD2544471D00918E4D /* Info.plist */,
 				5A5D854525445B1F0039EB25 /* DGNetworkingServices.travis.yml */,
-				5A5A482F27C55ED000D70331 /* DGAPIDispatcher.swift */,
 			);
 			path = DGNetworkingServices;
 			sourceTree = "<group>";
@@ -156,6 +161,53 @@
 				5A7CB0EB2544471E00918E4D /* Info.plist */,
 			);
 			path = DGNetworkingServicesTests;
+			sourceTree = "<group>";
+		};
+		5AC716D127CB4D8400668AC2 /* NetworkingServices */ = {
+			isa = PBXGroup;
+			children = (
+				5AC716DD27CB503F00668AC2 /* Resources */,
+				5AF401B524F148E600849D0D /* DGGlobalSharedVariable.swift */,
+				5AF401B324F10A6700849D0D /* DGNetworkingServices.swift */,
+				5AC716D227CB4DB000668AC2 /* DGNetworkingServices+Constants.swift */,
+				5AC716D427CB4DF100668AC2 /* DGNetworkingServices+Media.swift */,
+				5AC716D627CB4E5D00668AC2 /* DGNetworkingServices+URLBuilder.swift */,
+				5AC716D827CB4E7900668AC2 /* DGNetworkingServices+Delegate.swift */,
+			);
+			path = NetworkingServices;
+			sourceTree = "<group>";
+		};
+		5AC716DA27CB4EDC00668AC2 /* LogService */ = {
+			isa = PBXGroup;
+			children = (
+				5A7CB06F25443B2500918E4D /* DGNetworkLog+Constants.swift */,
+				5A7CB0622544378400918E4D /* DGNetworkLog.swift */,
+			);
+			path = LogService;
+			sourceTree = "<group>";
+		};
+		5AC716DB27CB4F2500668AC2 /* Dispatcher */ = {
+			isa = PBXGroup;
+			children = (
+				5A5A482F27C55ED000D70331 /* DGAPIDispatcher.swift */,
+			);
+			path = Dispatcher;
+			sourceTree = "<group>";
+		};
+		5AC716DC27CB4F6000668AC2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5A7CB05D2544370100918E4D /* Reachability.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		5AC716DD27CB503F00668AC2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5A7CB0582544094300918E4D /* mime.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		5AF4017724F108F000849D0D = {
@@ -343,11 +395,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A5A483027C55ED000D70331 /* DGAPIDispatcher.swift in Sources */,
+				5AC716D327CB4DB000668AC2 /* DGNetworkingServices+Constants.swift in Sources */,
+				5AC716D727CB4E5D00668AC2 /* DGNetworkingServices+URLBuilder.swift in Sources */,
+				5AC716D527CB4DF100668AC2 /* DGNetworkingServices+Media.swift in Sources */,
 				5A7CB0FC254447BD00918E4D /* DGGlobalSharedVariable.swift in Sources */,
 				5A7CB0FA254447BD00918E4D /* DGNetworkLog.swift in Sources */,
 				5A7CB0FB254447BD00918E4D /* DGNetworkingServices.swift in Sources */,
-				5A7CB0F9254447BD00918E4D /* Constants.swift in Sources */,
-				5A7CB0FD254447BD00918E4D /* RequiredExtensions.swift in Sources */,
+				5AC716D927CB4E7900668AC2 /* DGNetworkingServices+Delegate.swift in Sources */,
+				5A7CB0F9254447BD00918E4D /* DGNetworkLog+Constants.swift in Sources */,
+				5A7CB0FD254447BD00918E4D /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
