@@ -19,9 +19,9 @@ spec.swift_version = "5.2"
 spec.source       = { :git => "https://github.com/DhruvGovani/DGNetworkingServices.git", :tag => "1.0.61" }
 spec.source_files = 'DGNetworkingServices', 'DGNetworkingServices/**/*.{h,m,swift}'
 
-spec.subspec do |utils|
+spec.subspec "Utilities" do |utils|
 
-utils.name = "Utils"
+utils.name = "Utilities"
 utils.source_files = 'Utilities', 'DGNetworkingServices/Utilities/*.{h,m,swift}'
 
 end
