@@ -19,31 +19,37 @@ spec.swift_version = "5.2"
 spec.source       = { :git => "https://github.com/DhruvGovani/DGNetworkingServices.git", :tag => "1.0.610" }
 #spec.source_files = 'DGNetworkingServices', 'DGNetworkingServices/**/*.{h,m,swift}'
 
-spec.subspec "Utilities" do |utils|
+spec.subspec "Core" do |core|
+
+core.name = "Core"
+
+core.subspec "Utilities" do |utils|
 
 utils.name = "Utilities"
 utils.source_files = 'Utilities', 'DGNetworkingServices/Utilities/*.{h,m,swift}'
 
 end
 
-spec.subspec "NetworkingServices" do |networking|
+core.subspec "NetworkingServices" do |networking|
 
 networking.name = "NetworkingServices"
 networking.source_files = 'NetworkingServices', 'DGNetworkingServices/NetworkingServices/*.{h,m,swift,json}'
 
 end
 
-spec.subspec "Dispatcher" do |dispatcher|
+core.subspec "Dispatcher" do |dispatcher|
 
 dispatcher.name = "Dispatcher"
 dispatcher.source_files = 'Dispatcher', 'DGNetworkingServices/Dispatcher/*.{h,m,swift}'
 
 end
 
-spec.subspec "LogService" do |logService|
+core.subspec "LogService" do |logService|
 
 logService.name = "LogService"
 logService.source_files = 'LogService', 'DGNetworkingServices/LogService/*.{h,m,swift}'
+
+end
 
 end
 
