@@ -17,7 +17,7 @@ spec.license      = { :type => "MIT", :file => "LICENSE" }
 spec.ios.deployment_target = "12.0"
 spec.swift_version = "5.2"
 spec.source       = { :git => "https://github.com/DhruvGovani/DGNetworkingServices.git", :tag => "1.0.610" }
-spec.source_files = 'DGNetworkingServices', 'DGNetworkingServices/**/*.{h,m,swift}'
+#spec.source_files = 'DGNetworkingServices', 'DGNetworkingServices/**/*.{h,m,swift}'
 
 spec.subspec "Utilities" do |utils|
 
