@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
 spec.name         = "DGNetworkingServices"
-spec.version      = "1.0.2"
+spec.version      = "1.0.21"
 spec.summary      = "DGNetworkingServices allows you to Make REST API Calls with low effort of code writing."
 spec.authors      = { 'Dhruv Govani' => 'dhruvgovani@icloud.com' }
 spec.description  = <<-DESC
@@ -16,7 +16,7 @@ spec.homepage     = "https://github.com/DhruvGovani/DGNetworkingServices"
 spec.license      = { :type => "MIT", :file => "LICENSE" }
 spec.ios.deployment_target = "12.0"
 spec.swift_version = "5.2"
-spec.source       = { :git => "https://github.com/DhruvGovani/DGNetworkingServices.git", :tag => "1.0.610" }
+spec.source       = { :git => "https://github.com/DhruvGovani/DGNetworkingServices.git", :tag => "1.0.614" }
 #spec.source_files = 'DGNetworkingServices', 'DGNetworkingServices/**/*.{h,m,swift}'
 
 spec.subspec "Core" do |core|
