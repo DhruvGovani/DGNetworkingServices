@@ -224,6 +224,27 @@ class ViewController: UIViewController, DGAPIDispatcherDelegate {
         }
     }
     
+    struct ErrorModel: Codable {
+        let message, result: String
+    }
+    
+    struct createToken: Codable {
+        let token: String
+        let userDetails: UserDetails
+        let refreshToken: String
+    }
+
+    // MARK: - UserDetails
+    struct UserDetails: Codable {
+        let name, email, userID: String
+
+        enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case email = "Email"
+            case userID
+        }
+    }
+    
     func HeaderExample(){
         
         let headers : [String : String] = ["my-sample-header" : "hello world!"]
@@ -245,6 +266,47 @@ class ViewController: UIViewController, DGAPIDispatcherDelegate {
             }
             
         }
+        
+    }
+    
+    func dgResponseModelSample(){
+        
+        let params = [
+            "username": "CB12345",
+            "password": "aDAD"
+          ]
+        
+        DGNetworkingServices.main.dataRequest(Service: NetworkURL(withURL: "https://Sample-api/Token/CreateToken"), HttpMethod: .post, parameters: params, headers: nil) { status, responseError, data in
+            
+            if status == true, let data = data{
+                
+                do{
+                    
+                    let decodedResponse = try JSONDecoder().decode(DGResponse<createToken,ErrorModel>.self, from: data)
+                    
+                    switch decodedResponse{
+                    case .success(let successResponse):
+                        print(successResponse)
+                        
+                    case .fail(let errorResponse):
+                        print(errorResponse)
+                        
+                    }
+                    
+                }catch{
+                    
+                    print(error)
+                    
+                }
+                
+            }else{
+                
+                print(responseError?.rawValue)
+                
+            }
+            
+        }
+        
         
     }
     
