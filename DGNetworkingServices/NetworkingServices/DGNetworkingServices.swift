@@ -1306,6 +1306,158 @@ public class DGNetworkingServices {
             
         }
         
+    }
+    
+    public func dataRequest(Service : NetworkURL, HttpMethod : httpMethod, parameters : [String : Any]?, headers : [String : String]?, ResponseHandler: @escaping (Bool, NError?, Data?) -> Void){
+    
+        guard Reachability().isConnected() else {
+            DispatchQueue.main.async {
+                DGNetworkLogs.shared.setLog(url: Service.Url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.NetworkError.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
+                ResponseHandler(false, NError.NetworkError, nil)
+            }
+            return
+        }
+        
+        // Appending Your baseUrl and Version with Service
+        let url = Service.Url
+        
+        // Comment Code if you don't want to print the url being called
+        print(url)
+        
+        // Checking if url is valid or not
+        
+        if url.isValidURL{
+            
+            // checking if url string can convert to URLType or Not
+            guard let URL = URL(string: url) else {
+                DispatchQueue.main.async {
+                    DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadUrl.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
+                    ResponseHandler(false, NError.BadUrl, nil)
+                }
+                return
+            }
+            
+            // init request object
+            var request = URLRequest(url: URL)
+            
+            // Additional request settings
+            request.timeoutInterval = AdditionalRequestSettings.timeoutInterval ?? 60
+            
+            request.cachePolicy = AdditionalRequestSettings.cachePolicy ?? .useProtocolCachePolicy
+            
+            if #available(iOS 13.0, *) {
+                
+                request.allowsExpensiveNetworkAccess = AdditionalRequestSettings.UseExpensiveNetwork ??  true
+                
+                request.allowsConstrainedNetworkAccess = AdditionalRequestSettings.MakeCallOnLowDataMode ?? true
+                
+            } else {
+                // Fallback on earlier versions
+            }
+            
+            request.networkServiceType = AdditionalRequestSettings.ServiceType ?? .default
+            
+            
+            // check if parameters are provided
+            if let JSONParameters = parameters{
+                
+                // convert json parameters to httpbody
+                guard let httpBody = try? JSONSerialization.data(withJSONObject: JSONParameters, options: []) else {
+                    DispatchQueue.main.async {
+                        DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: headers, response: nil, message: NError.BadParams.rawValue, Method: HttpMethod.rawValue, urlResponse: nil, responseData: nil)
+                        ResponseHandler(false, NError.BadParams, nil)
+                    }
+                    return
+                }
+                // if httpbody conversion succesfull
+                request.httpBody = httpBody
+            }
+            
+            //method
+            request.httpMethod = HttpMethod.rawValue
+            
+            //header
+            request.setValue("application/json", forHTTPHeaderField: "accept")
+            request.setValue("application/json", forHTTPHeaderField: "content-type")
+            
+            if let header = headers{
+                for (key,val) in  header{
+                    request.setValue(val, forHTTPHeaderField: key)
+                }
+            }
+            
+            if let defaultHeaders = DGDefaultHeaders{
+                for (key,val) in defaultHeaders{
+                    request.setValue(val, forHTTPHeaderField: key)
+                }
+            }
+            
+            // session object init
+            let session = URLSession.shared
+                        
+            let task = session.dataTask(with: request) { responseData, HTTPResponse, error in
+                
+                DispatchQueue.main.async {
+                    if let Response = HTTPResponse{
+                        
+                        if let responseData = responseData {
+                            
+                            ResponseHandler(true, nil, responseData)
+                            
+                            DGNetworkLogs.shared.setLog(url: url, statusCode: (Response as? HTTPURLResponse)?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: nil, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: responseData)
+                            
+                        }else{
+                            
+                            if let response = Response as? HTTPURLResponse{
+                                
+                                ResponseHandler(false,self.errorBasedOnStatusCode(response.statusCode),nil)
+                                
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: response.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: self.errorBasedOnStatusCode(response.statusCode).rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: responseData)
+                                
+                            }else{
+                                
+                                ResponseHandler(false,NError.InvalidResponse, nil)
+                                
+                                DGNetworkLogs.shared.setLog(url: url, statusCode: (Response as? HTTPURLResponse)?.statusCode, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: responseData)
+                                
+                            }
+                            
+                        }
+                        
+                    }else{
+                        
+                        print(error ?? "")
+                        print(error?.localizedDescription ?? "")
+                        DGNetworkLogs.shared.setLog(url: url, statusCode: nil, parameters: parameters, headers: request.allHTTPHeaderFields, response: nil, message: NError.InvalidResponse.rawValue, Method: HttpMethod.rawValue, urlResponse: HTTPResponse, responseData: responseData)
+                        ResponseHandler(false,NError.InvalidResponse, nil)
+                        
+                    }
+                    
+                }
+                
+                
+            }
+            
+            task.resume()
+        }
+    }
+    
+    func errorBasedOnStatusCode(_ statusCode : Int) -> NError{
+        
+        switch statusCode{
+            
+        case 400:
+            return .BadRequest
+        case 401,403:
+            return .Forbidden
+        case 405:
+            return .invalidMethod
+        case 500:
+            return .ServerError
+        default:
+            return .DefError
+            
+        }
         
     }
     
@@ -1361,4 +1513,22 @@ public class DGNetworkingServices {
         }
     }
     
+}
+
+public enum DGResponse<SuccessModel : Decodable, FailModel : Decodable>: Decodable {
+    case success(SuccessModel)
+    case fail(FailModel)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let x = try? container.decode(SuccessModel.self) {
+            self = .success(x)
+            return
+        }
+        if let x = try? container.decode(FailModel.self) {
+            self = .fail(x)
+            return
+        }
+        throw DecodingError.typeMismatch(DGResponse.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for DataUnion"))
+    }
 }
