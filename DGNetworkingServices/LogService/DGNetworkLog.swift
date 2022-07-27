@@ -130,14 +130,35 @@ public class DGNetworkLogs {
                 print("Full Response : \(Log.fullResponse!)")
             }
             
-            print("\n************************")
-            print("cURL : ")
-            print(Log.request?.cURL(pretty: true) ?? "Unable to format to cURL")
-            print("************************\n")
-
+            if let request = Log.request{
+                print("\n************************")
+                print("cURL : ")
+                print(cURL(urlRequest: request, pretty: true))
+                print("************************\n")
+            }
         }
         print("--------END-------")
         print("\n--------NETWORK LOG(S)----------")
 
     }
+    
+    func cURL(urlRequest : URLRequest, pretty: Bool = false) -> String {
+        let newLine = pretty ? "\\\n" : ""
+        let method = (pretty ? "--request " : "-X ") + "\(urlRequest.httpMethod ?? "GET") \(newLine)"
+        let url: String = (pretty ? "--url " : "") + "\'\(urlRequest.url?.absoluteString ?? "")\' \(newLine)"
+        var cURL = "curl "
+        var header = ""
+        var data: String = ""
+        if let httpHeaders = urlRequest.allHTTPHeaderFields, httpHeaders.keys.count > 0 {
+            for (key,value) in httpHeaders {
+                header += (pretty ? "--header " : "-H ") + "\'\(key): \(value)\' \(newLine)"
+            }
+        }
+        if let bodyData = urlRequest.httpBody, let bodyString = String(data: bodyData, encoding: .utf8),  !bodyString.isEmpty {
+            data = "--data '\(bodyString)'"
+        }
+        cURL += method + url + header + data
+        return cURL
+    }
+    
 }
