@@ -27,6 +27,7 @@ public class DGNetworkLogs {
         var message : String?
         var httpMethod : String
         var fullResponse : URLResponse?
+        var request : URLRequest?
         var fullData : String
     }
     /// Shared Object to access the Functions of DGNetworkLogs
@@ -39,7 +40,7 @@ public class DGNetworkLogs {
     
     /// This Function will be used in main codeBase to Log the Requests and Responses
     /// # WARNING : DO NOT MESS WITH THIS FUCNTION ONLY MADE TO BE USED IN THE MAIN CODEBASE
-    public func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String, urlResponse : URLResponse?, responseData : Data?) {
+    public func setLog(url : String?, statusCode : Int?, parameters : [String:Any]?, headers : [String:String]?, response : [String:Any]?, message : String?, Method : String, urlResponse : URLResponse?, responseData : Data?, request : URLRequest?) {
         
         if logging.request == true{
             
@@ -55,10 +56,10 @@ public class DGNetworkLogs {
                     
                 }
                 
-                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: response, message: message, httpMethod: Method, fullResponse: urlResponse, fullData:responseDataString))
+                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: response, message: message, httpMethod: Method, fullResponse: urlResponse, request: request, fullData:responseDataString))
                 
             }else{
-                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: nil, message: message, httpMethod: Method, fullResponse: nil, fullData: "nil"))
+                Logs.append(DGLog(url: url, time: Date(), statusCode: statusCode, parameters: parameters, headers: headers, response: nil, message: message, httpMethod: Method, fullResponse: nil, request: request, fullData: "nil"))
             }
         }
         
@@ -67,7 +68,7 @@ public class DGNetworkLogs {
     /// This Function Will print all the logged Requests and Responses
     /// - parameter filterByUrl : provide a url string to filter the result by the url
     /// - parameter filterByStatusCode : provide a HTTP Status code  to filter the result by the HTTP Status Code
-    public func PrintNetworkLogs(filterByUrl : String? = nil, filterByStatusCode : Int? = nil, printFullResponse : Bool){
+    public func PrintNetworkLogs(filterByUrl : String? = nil, filterByStatusCode : Int? = nil, printFullResponse : Bool = true){
         
         if Logs.count <= 0{
             return
@@ -97,11 +98,13 @@ public class DGNetworkLogs {
         
         print("--------DGNetworkingServices----------")
         print("--------NETWORK LOG(S)----------")
-        print("--------BEGIN-------")
+        print("--------BEGIN-------\n")
         for L in 0...logtoReturn.count - 1{
             
             let Log = logtoReturn[L]
-            print("\nLog ID : \(L+1)")
+            print("------------------------")
+            print("Log ID : \(L+1)")
+            print("------------------------")
             print("URL : \(Log.url ?? "not found")")
             print("Method : \(Log.httpMethod)")
             print("statusCode : \(String(Log.statusCode ?? 0))")
@@ -127,6 +130,11 @@ public class DGNetworkLogs {
                 print("Full Response : \(Log.fullResponse!)")
             }
             
+            print("\n************************")
+            print("cURL : ")
+            print(Log.request?.cURL(pretty: true) ?? "Unable to format to cURL")
+            print("************************\n")
+
         }
         print("--------END-------")
         print("\n--------NETWORK LOG(S)----------")
