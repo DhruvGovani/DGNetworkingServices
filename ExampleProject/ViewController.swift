@@ -8,6 +8,7 @@
 
 import UIKit
 import DGNetworkingServices
+import AVFoundation
 
 struct TestModel: Codable {
     let page, perPage, total, totalPages: Int?
@@ -71,16 +72,16 @@ class ViewController: UIViewController, DGAPIDispatcherDelegate {
         
     }
     
-    func DirectDecodableGetUserDataWithStoredUrl(){
+    static func DirectDecodableGetUserDataWithStoredUrl(completion : @escaping ((Bool,String,TestModel?) -> ())){
         
         DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withService: "users?page=2"), HttpMethod: .get, parameters: nil, headers: nil, Codable: TestModel.self) { (Result) in
             switch Result{
             case .success(let Response):
                 print(Response)
-                
+                completion(true,"OK!",Response)
             case .failure(let error):
                 print(error)
-                
+                completion(false,error.rawValue,nil)
             }
         }
         
@@ -450,7 +451,9 @@ class ViewController: UIViewController, DGAPIDispatcherDelegate {
             print("GetUserDataWithStoredUrl")
             print("--------------")
 
-            DirectDecodableGetUserDataWithStoredUrl()
+            ViewController.DirectDecodableGetUserDataWithStoredUrl { status, msg, data in
+                
+            }
         case 1:
             print("--------------")
             print("GetUserDataWithStoredUrl")
@@ -508,3 +511,43 @@ extension ViewController : DGNetworkingServicesDelegate{
         print(ProgressDone)
     }
 }
+
+struct GetUserDetailsResponse : Codable {
+    let page : Int
+    let per_page : Int
+    let support : supportData
+    let data : [dataItems]
+    let total_pages : Int
+    let total : Int
+}
+
+struct supportData : Codable {
+    let url : String
+    let text : String
+}
+
+
+
+struct dataItems : Codable {
+    let first_name : String
+    let avatar : String
+    let last_name : String
+    let email : String
+    let id : Int
+}
+
+ 
+    func getUserDetails(confirmPassword : String, firstName : String, timezoneID : Int, email : String, userName : String, userID : Int, maritalCode : String, invitation : String, dob : String, iso : Bool, lastName : String, password : String, gender : String, culture : String, raceID : Int, relationsihpID : Int,  completion : @escaping ((Bool,String,GetUserDetailsResponse?) -> ())){
+        
+        DGNetworkingServices.main.MakeApiCall(Service: NetworkURL(withService: "getUser"), HttpMethod: .get, parameters: nil, headers: nil, Codable: GetUserDetailsResponse.self) { (Result) in
+            switch Result{
+            case .success(let Response):
+                print(Response)
+                completion(true,"OK!",Response)
+            case .failure(let error):
+                print(error)
+                completion(false,error.rawValue,nil)
+            }
+        }
+        
+    }
